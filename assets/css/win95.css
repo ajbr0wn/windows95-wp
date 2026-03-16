@@ -1,0 +1,488 @@
+/* ============================================
+   Windows 95 UI Component Library
+   A faithful CSS recreation of Win95 chrome.
+   ============================================ */
+
+/* --- Design Tokens --- */
+:root {
+	/* Surface colors */
+	--win95-bg: #c0c0c0;
+	--win95-bg-light: #dfdfdf;
+	--win95-bg-dark: #808080;
+	--win95-bg-darkest: #000000;
+	--win95-bg-white: #ffffff;
+
+	/* Desktop */
+	--win95-desktop: #008080;
+
+	/* Title bar */
+	--win95-title-active: #000080;
+	--win95-title-inactive: #808080;
+	--win95-title-text: #ffffff;
+
+	/* Text */
+	--win95-text: #000000;
+	--win95-text-disabled: #808080;
+	--win95-text-highlight: #ffffff;
+	--win95-highlight: #000080;
+
+	/* Borders for the classic beveled look */
+	--win95-border-raised-outer: #dfdfdf;
+	--win95-border-raised-inner: #ffffff;
+	--win95-border-sunken-outer: #808080;
+	--win95-border-sunken-inner: #000000;
+
+	/* Sizing */
+	--win95-font-size: 11px;
+	--win95-title-height: 18px;
+	--win95-border-width: 2px;
+	--win95-element-spacing: 8px;
+}
+
+/* --- Reset & Base --- */
+*,
+*::before,
+*::after {
+	box-sizing: border-box;
+}
+
+/* --- Beveled Border Mixins via classes --- */
+
+/* Raised outer surface (windows, buttons) */
+.win95-raised {
+	border: none;
+	box-shadow:
+		inset -1px -1px 0 0 var(--win95-bg-dark),
+		inset 1px 1px 0 0 var(--win95-bg-light),
+		inset -2px -2px 0 0 var(--win95-bg-darkest),
+		inset 2px 2px 0 0 var(--win95-bg-white);
+}
+
+/* Sunken inner surface (text fields, status bar) */
+.win95-sunken {
+	box-shadow:
+		inset -1px -1px 0 0 var(--win95-bg-white),
+		inset 1px 1px 0 0 var(--win95-bg-dark),
+		inset -2px -2px 0 0 var(--win95-bg-light),
+		inset 2px 2px 0 0 var(--win95-bg-darkest);
+}
+
+/* --- Window --- */
+.win95-window {
+	background: var(--win95-bg);
+	box-shadow:
+		inset -1px -1px 0 0 var(--win95-bg-darkest),
+		inset 1px 1px 0 0 var(--win95-bg-light),
+		inset -2px -2px 0 0 var(--win95-bg-dark),
+		inset 2px 2px 0 0 var(--win95-bg-white);
+	padding: 3px;
+	font-family: var(--win95-font);
+	font-size: var(--win95-font-size);
+	color: var(--win95-text);
+}
+
+.win95-window.is-active .win95-title-bar {
+	background: linear-gradient(90deg, var(--win95-title-active), #1084d0);
+}
+
+.win95-window:not(.is-active) .win95-title-bar {
+	background: linear-gradient(90deg, var(--win95-title-inactive), #b5b5b5);
+}
+
+/* --- Title Bar --- */
+.win95-title-bar {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	height: 18px;
+	padding: 0 2px 0 3px;
+	user-select: none;
+	-webkit-user-select: none;
+}
+
+.win95-title-bar-text {
+	color: var(--win95-title-text);
+	font-family: var(--win95-font);
+	font-size: var(--win95-font-size);
+	font-weight: bold;
+	letter-spacing: 0;
+	line-height: 18px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	flex: 1;
+}
+
+.win95-title-bar-controls {
+	display: flex;
+	gap: 2px;
+	margin-left: 4px;
+	flex-shrink: 0;
+}
+
+/* --- Title Bar Buttons --- */
+.win95-title-bar-controls button {
+	width: 16px;
+	height: 14px;
+	min-width: 16px;
+	padding: 0;
+	border: none;
+	background: var(--win95-bg);
+	box-shadow:
+		inset -1px -1px 0 0 var(--win95-bg-darkest),
+		inset 1px 1px 0 0 var(--win95-bg-white),
+		inset -2px -2px 0 0 var(--win95-bg-dark),
+		inset 2px 2px 0 0 var(--win95-bg-light);
+	image-rendering: pixelated;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	cursor: pointer;
+}
+
+.win95-title-bar-controls button:active {
+	box-shadow:
+		inset -1px -1px 0 0 var(--win95-bg-white),
+		inset 1px 1px 0 0 var(--win95-bg-darkest),
+		inset -2px -2px 0 0 var(--win95-bg-light),
+		inset 2px 2px 0 0 var(--win95-bg-dark);
+}
+
+/* Button icons using pseudo-elements */
+.win95-btn-minimize::after {
+	content: '';
+	display: block;
+	width: 8px;
+	height: 2px;
+	background: var(--win95-text);
+	margin-top: 5px;
+}
+
+.win95-btn-maximize::after {
+	content: '';
+	display: block;
+	width: 9px;
+	height: 8px;
+	border: 1px solid var(--win95-text);
+	border-top-width: 2px;
+}
+
+.win95-btn-close::before {
+	content: '\00D7';
+	font-size: 14px;
+	font-weight: bold;
+	line-height: 1;
+	color: var(--win95-text);
+}
+
+.win95-btn-close::after {
+	content: none;
+}
+
+/* --- Window Body --- */
+.win95-window-body {
+	margin: 0;
+	padding: var(--win95-element-spacing);
+}
+
+.win95-window-body--scrollable {
+	overflow-y: auto;
+	max-height: 70vh;
+}
+
+/* --- Buttons --- */
+.win95-btn {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	font-family: var(--win95-font);
+	font-size: var(--win95-font-size);
+	height: 23px;
+	min-width: 75px;
+	padding: 0 12px;
+	background: var(--win95-bg);
+	border: none;
+	cursor: pointer;
+	box-shadow:
+		inset -1px -1px 0 0 var(--win95-bg-darkest),
+		inset 1px 1px 0 0 var(--win95-bg-white),
+		inset -2px -2px 0 0 var(--win95-bg-dark),
+		inset 2px 2px 0 0 var(--win95-bg-light);
+	color: var(--win95-text);
+	text-decoration: none;
+}
+
+.win95-btn:active {
+	box-shadow:
+		inset -1px -1px 0 0 var(--win95-bg-white),
+		inset 1px 1px 0 0 var(--win95-bg-darkest),
+		inset -2px -2px 0 0 var(--win95-bg-light),
+		inset 2px 2px 0 0 var(--win95-bg-dark);
+	padding: 1px 11px 0 13px;
+}
+
+.win95-btn:focus-visible {
+	outline: 1px dotted var(--win95-text);
+	outline-offset: -4px;
+}
+
+.win95-btn--default {
+	border: 2px solid var(--win95-bg-darkest);
+}
+
+/* --- Text Input --- */
+.win95-text-input {
+	font-family: var(--win95-font);
+	font-size: var(--win95-font-size);
+	height: 21px;
+	padding: 3px 4px;
+	border: none;
+	background: var(--win95-bg-white);
+	color: var(--win95-text);
+	box-shadow:
+		inset -1px -1px 0 0 var(--win95-bg-white),
+		inset 1px 1px 0 0 var(--win95-bg-dark),
+		inset -2px -2px 0 0 var(--win95-bg-light),
+		inset 2px 2px 0 0 var(--win95-bg-darkest);
+}
+
+.win95-text-input:focus {
+	outline: none;
+}
+
+/* --- Textarea --- */
+.win95-textarea {
+	font-family: var(--win95-font-mono);
+	font-size: var(--win95-font-size);
+	padding: 3px 4px;
+	border: none;
+	background: var(--win95-bg-white);
+	color: var(--win95-text);
+	resize: both;
+	box-shadow:
+		inset -1px -1px 0 0 var(--win95-bg-white),
+		inset 1px 1px 0 0 var(--win95-bg-dark),
+		inset -2px -2px 0 0 var(--win95-bg-light),
+		inset 2px 2px 0 0 var(--win95-bg-darkest);
+}
+
+/* --- Menu Bar --- */
+.win95-menu-bar {
+	display: flex;
+	padding: 0;
+	margin: 0;
+	list-style: none;
+	background: var(--win95-bg);
+	border-bottom: 1px solid var(--win95-bg-dark);
+}
+
+.win95-menu-bar li {
+	position: relative;
+}
+
+.win95-menu-bar a,
+.win95-menu-bar button {
+	display: block;
+	font-family: var(--win95-font);
+	font-size: var(--win95-font-size);
+	padding: 2px 6px;
+	color: var(--win95-text);
+	text-decoration: none;
+	border: none;
+	background: none;
+	cursor: pointer;
+}
+
+.win95-menu-bar a:hover,
+.win95-menu-bar button:hover {
+	background: var(--win95-highlight);
+	color: var(--win95-text-highlight);
+}
+
+/* --- Dropdown Menu --- */
+.win95-dropdown {
+	display: none;
+	position: absolute;
+	top: 100%;
+	left: 0;
+	min-width: 160px;
+	background: var(--win95-bg);
+	padding: 2px;
+	z-index: 1000;
+	box-shadow:
+		inset -1px -1px 0 0 var(--win95-bg-darkest),
+		inset 1px 1px 0 0 var(--win95-bg-white),
+		inset -2px -2px 0 0 var(--win95-bg-dark),
+		inset 2px 2px 0 0 var(--win95-bg-light);
+}
+
+.win95-dropdown.is-open {
+	display: block;
+}
+
+.win95-dropdown li {
+	list-style: none;
+}
+
+.win95-dropdown a {
+	display: block;
+	padding: 3px 20px;
+	font-family: var(--win95-font);
+	font-size: var(--win95-font-size);
+	color: var(--win95-text);
+	text-decoration: none;
+	white-space: nowrap;
+}
+
+.win95-dropdown a:hover {
+	background: var(--win95-highlight);
+	color: var(--win95-text-highlight);
+}
+
+.win95-dropdown-separator {
+	height: 1px;
+	margin: 2px 3px;
+	background: var(--win95-bg-dark);
+	border-bottom: 1px solid var(--win95-bg-white);
+}
+
+/* --- Tabs --- */
+.win95-tabs {
+	display: flex;
+	border-bottom: 1px solid var(--win95-bg-dark);
+	margin-bottom: -1px;
+	position: relative;
+	z-index: 1;
+}
+
+.win95-tab {
+	font-family: var(--win95-font);
+	font-size: var(--win95-font-size);
+	padding: 3px 12px;
+	background: var(--win95-bg);
+	border: none;
+	cursor: pointer;
+	position: relative;
+	box-shadow:
+		inset 0 1px 0 0 var(--win95-bg-white),
+		inset 1px 0 0 0 var(--win95-bg-white),
+		inset -1px 0 0 0 var(--win95-bg-darkest),
+		inset 0 2px 0 0 var(--win95-bg-light),
+		inset 2px 0 0 0 var(--win95-bg-light),
+		inset -2px 0 0 0 var(--win95-bg-dark);
+	margin-right: 2px;
+	margin-bottom: -1px;
+}
+
+.win95-tab.is-active {
+	padding-bottom: 5px;
+	margin-top: -2px;
+	background: var(--win95-bg);
+	z-index: 2;
+}
+
+/* --- Scrollbar (Webkit) --- */
+.win95-window ::-webkit-scrollbar {
+	width: 16px;
+	height: 16px;
+}
+
+.win95-window ::-webkit-scrollbar-track {
+	background: repeating-conic-gradient(var(--win95-bg) 0% 25%, var(--win95-bg-white) 0% 50%) 50% / 2px 2px;
+}
+
+.win95-window ::-webkit-scrollbar-thumb {
+	background: var(--win95-bg);
+	box-shadow:
+		inset -1px -1px 0 0 var(--win95-bg-darkest),
+		inset 1px 1px 0 0 var(--win95-bg-white),
+		inset -2px -2px 0 0 var(--win95-bg-dark),
+		inset 2px 2px 0 0 var(--win95-bg-light);
+}
+
+.win95-window ::-webkit-scrollbar-button {
+	display: block;
+	width: 16px;
+	height: 16px;
+	background: var(--win95-bg);
+	box-shadow:
+		inset -1px -1px 0 0 var(--win95-bg-darkest),
+		inset 1px 1px 0 0 var(--win95-bg-white),
+		inset -2px -2px 0 0 var(--win95-bg-dark),
+		inset 2px 2px 0 0 var(--win95-bg-light);
+}
+
+/* --- Status Bar --- */
+.win95-status-bar {
+	display: flex;
+	gap: 1px;
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+.win95-status-bar__field {
+	padding: 2px 3px;
+	font-family: var(--win95-font);
+	font-size: var(--win95-font-size);
+	box-shadow:
+		inset -1px -1px 0 0 var(--win95-bg-white),
+		inset 1px 1px 0 0 var(--win95-bg-dark);
+	flex: 1;
+}
+
+/* --- Checkbox & Radio --- */
+.win95-checkbox,
+.win95-radio {
+	display: inline-flex;
+	align-items: center;
+	gap: 4px;
+	font-family: var(--win95-font);
+	font-size: var(--win95-font-size);
+	cursor: pointer;
+}
+
+/* --- Progress Bar --- */
+.win95-progress {
+	width: 100%;
+	height: 16px;
+	box-shadow:
+		inset -1px -1px 0 0 var(--win95-bg-white),
+		inset 1px 1px 0 0 var(--win95-bg-dark);
+	background: var(--win95-bg-white);
+	padding: 1px;
+}
+
+.win95-progress__bar {
+	height: 100%;
+	background: var(--win95-title-active);
+	transition: width 0.3s;
+}
+
+/* --- Separator / Divider --- */
+.win95-separator {
+	height: 2px;
+	border: none;
+	background: var(--win95-bg-dark);
+	border-bottom: 1px solid var(--win95-bg-white);
+	margin: var(--win95-element-spacing) 0;
+}
+
+/* --- Tooltip --- */
+.win95-tooltip {
+	position: absolute;
+	background: #ffffe1;
+	border: 1px solid var(--win95-bg-darkest);
+	padding: 2px 4px;
+	font-family: var(--win95-font);
+	font-size: var(--win95-font-size);
+	white-space: nowrap;
+	z-index: 10000;
+	pointer-events: none;
+}
+
+/* --- Selection --- */
+::selection {
+	background: var(--win95-highlight);
+	color: var(--win95-text-highlight);
+}

@@ -1,0 +1,22 @@
+/* Windows 95 System Fonts */
+
+/* MS Sans Serif approximation using a pixel/bitmap-style web font */
+@font-face {
+	font-family: 'W95FA';
+	src: url('../fonts/w95fa.woff2') format('woff2'),
+	     url('../fonts/w95fa.woff') format('woff');
+	font-weight: normal;
+	font-style: normal;
+	font-display: swap;
+}
+
+/*
+ * Fallback font stack that approximates the Win95 look.
+ * If the custom W95FA font isn't available, we fall back to
+ * system UI fonts that are close enough.
+ */
+:root {
+	--win95-font: 'W95FA', 'Pixelated MS Sans Serif', 'MS Sans Serif', 'Microsoft Sans Serif', Tahoma, Arial, sans-serif;
+	--win95-font-bold: var(--win95-font);
+	--win95-font-mono: 'Fixedsys', 'Courier New', Courier, monospace;
+}

@@ -1,0 +1,148 @@
+<svg xmlns="http://www.w3.org/2000/svg" style="display:none">
+
+<!-- Programs / Folder -->
+<symbol id="icon-programs" viewBox="0 0 16 16">
+	<rect x="1" y="3" width="14" height="11" fill="#FFC800" stroke="#000" stroke-width="1"/>
+	<rect x="1" y="3" width="7" height="2" fill="#FFC800" stroke="#000" stroke-width="1"/>
+	<polygon points="1,3 8,3 9,1 1,1" fill="#FFC800" stroke="#000" stroke-width="1"/>
+	<rect x="2" y="5" width="12" height="1" fill="#FFE87C"/>
+</symbol>
+
+<!-- Documents / Notepad -->
+<symbol id="icon-document" viewBox="0 0 16 16">
+	<rect x="2" y="1" width="10" height="14" fill="#FFF" stroke="#000" stroke-width="1"/>
+	<rect x="2" y="1" width="10" height="3" fill="#000080"/>
+	<line x1="4" y1="6" x2="10" y2="6" stroke="#000" stroke-width="1"/>
+	<line x1="4" y1="8" x2="11" y2="8" stroke="#808080" stroke-width="1"/>
+	<line x1="4" y1="10" x2="9" y2="10" stroke="#808080" stroke-width="1"/>
+	<line x1="4" y1="12" x2="10" y2="12" stroke="#808080" stroke-width="1"/>
+</symbol>
+
+<!-- Settings / Gear -->
+<symbol id="icon-settings" viewBox="0 0 16 16">
+	<rect x="1" y="5" width="14" height="8" fill="#C0C0C0" stroke="#000" stroke-width="1"/>
+	<rect x="3" y="3" width="4" height="4" fill="#FFC800" stroke="#000" stroke-width="1"/>
+	<circle cx="5" cy="5" r="1.5" fill="#000"/>
+	<rect x="9" y="7" width="4" height="4" fill="#808080" stroke="#000" stroke-width="1"/>
+	<circle cx="11" cy="9" r="1" fill="#FFC800"/>
+</symbol>
+
+<!-- Find / Magnifying Glass -->
+<symbol id="icon-find" viewBox="0 0 16 16">
+	<circle cx="6" cy="6" r="4" fill="#FFF" stroke="#000" stroke-width="1.5"/>
+	<circle cx="6" cy="6" r="2.5" fill="none" stroke="#000080" stroke-width="0.5"/>
+	<line x1="9" y1="9" x2="14" y2="14" stroke="#000" stroke-width="2"/>
+	<line x1="3" y1="4" x2="5" y2="4" stroke="#808080" stroke-width="1"/>
+	<line x1="3" y1="6" x2="7" y2="6" stroke="#808080" stroke-width="1"/>
+</symbol>
+
+<!-- Help / Book with ? -->
+<symbol id="icon-help" viewBox="0 0 16 16">
+	<rect x="2" y="1" width="12" height="14" rx="1" fill="#800080" stroke="#000" stroke-width="1"/>
+	<rect x="4" y="2" width="9" height="12" fill="#FFF" stroke="#000" stroke-width="0.5"/>
+	<text x="8" y="12" font-size="10" font-weight="bold" fill="#800080" text-anchor="middle" font-family="serif">?</text>
+</symbol>
+
+<!-- Run -->
+<symbol id="icon-run" viewBox="0 0 16 16">
+	<rect x="1" y="4" width="14" height="10" fill="#C0C0C0" stroke="#000" stroke-width="1"/>
+	<rect x="1" y="4" width="14" height="2" fill="#000080"/>
+	<rect x="3" y="8" width="10" height="4" fill="#FFF" stroke="#808080" stroke-width="0.5"/>
+	<text x="5" y="11.5" font-size="4" fill="#000" font-family="monospace">C:\&gt;_</text>
+</symbol>
+
+<!-- Shut Down / Power -->
+<symbol id="icon-shutdown" viewBox="0 0 16 16">
+	<rect x="2" y="6" width="12" height="9" fill="#808080" stroke="#000" stroke-width="1"/>
+	<rect x="4" y="1" width="8" height="7" fill="#C0C0C0" stroke="#000" stroke-width="1"/>
+	<rect x="5" y="2" width="6" height="5" fill="#000080"/>
+	<polygon points="6,7 8,4 10,7" fill="#FFC800"/>
+</symbol>
+
+<!-- Internet Explorer / Globe -->
+<symbol id="icon-ie" viewBox="0 0 16 16">
+	<circle cx="8" cy="8" r="7" fill="#0078D7" stroke="#000" stroke-width="1"/>
+	<ellipse cx="8" cy="8" rx="3" ry="7" fill="none" stroke="#FFF" stroke-width="0.8"/>
+	<line x1="1" y1="6" x2="15" y2="6" stroke="#FFF" stroke-width="0.8"/>
+	<line x1="1" y1="10" x2="15" y2="10" stroke="#FFF" stroke-width="0.8"/>
+	<ellipse cx="8" cy="8" rx="7" ry="3" fill="none" stroke="#FFF" stroke-width="0.5"/>
+</symbol>
+
+<!-- My Computer -->
+<symbol id="icon-computer" viewBox="0 0 16 16">
+	<rect x="2" y="1" width="12" height="9" fill="#C0C0C0" stroke="#000" stroke-width="1"/>
+	<rect x="3" y="2" width="10" height="6" fill="#000080"/>
+	<rect x="4" y="11" width="8" height="2" fill="#C0C0C0" stroke="#000" stroke-width="1"/>
+	<rect x="3" y="13" width="10" height="2" fill="#C0C0C0" stroke="#000" stroke-width="1"/>
+	<rect x="5" y="3" width="3" height="2" fill="#008080"/>
+</symbol>
+
+<!-- Home -->
+<symbol id="icon-home" viewBox="0 0 16 16">
+	<polygon points="8,1 1,8 3,8 3,15 7,15 7,10 9,10 9,15 13,15 13,8 15,8" fill="#FFC800" stroke="#000" stroke-width="0.8"/>
+	<rect x="7" y="10" width="2" height="5" fill="#804000"/>
+	<rect x="4" y="4" width="3" height="3" fill="#0078D7" stroke="#000" stroke-width="0.5"/>
+</symbol>
+
+<!-- Favorites / Star -->
+<symbol id="icon-favorites" viewBox="0 0 16 16">
+	<polygon points="8,1 10,6 15,6 11,9 12,15 8,11 4,15 5,9 1,6 6,6" fill="#0078D7" stroke="#000" stroke-width="0.8"/>
+</symbol>
+
+<!-- Log Off / Key -->
+<symbol id="icon-logoff" viewBox="0 0 16 16">
+	<circle cx="5" cy="5" r="4" fill="#FFC800" stroke="#000" stroke-width="1"/>
+	<circle cx="5" cy="5" r="2" fill="#C0C0C0" stroke="#000" stroke-width="0.5"/>
+	<rect x="8" y="4" width="7" height="2" fill="#FFC800" stroke="#000" stroke-width="0.5"/>
+	<rect x="13" y="4" width="1" height="4" fill="#FFC800" stroke="#000" stroke-width="0.5"/>
+	<rect x="11" y="4" width="1" height="3" fill="#FFC800" stroke="#000" stroke-width="0.5"/>
+</symbol>
+
+<!-- Windows Update / Globe with arrow -->
+<symbol id="icon-update" viewBox="0 0 16 16">
+	<circle cx="8" cy="8" r="6" fill="#008080" stroke="#000" stroke-width="1"/>
+	<path d="M3,8 Q8,3 13,8 Q8,13 3,8" fill="#00AA00" stroke="#000" stroke-width="0.5"/>
+	<polygon points="12,2 15,2 15,5" fill="#FFC800" stroke="#000" stroke-width="0.5"/>
+	<line x1="12" y1="5" x2="15" y2="2" stroke="#FFC800" stroke-width="1"/>
+</symbol>
+
+<!-- Dashboard / Admin -->
+<symbol id="icon-dashboard" viewBox="0 0 16 16">
+	<rect x="1" y="1" width="6" height="6" fill="#FF0000" stroke="#000" stroke-width="0.5"/>
+	<rect x="9" y="1" width="6" height="6" fill="#00FF00" stroke="#000" stroke-width="0.5"/>
+	<rect x="1" y="9" width="6" height="6" fill="#0000FF" stroke="#000" stroke-width="0.5"/>
+	<rect x="9" y="9" width="6" height="6" fill="#FFFF00" stroke="#000" stroke-width="0.5"/>
+</symbol>
+
+<!-- Post / Text file -->
+<symbol id="icon-post" viewBox="0 0 32 32">
+	<rect x="4" y="2" width="24" height="28" fill="#FFF" stroke="#000" stroke-width="1"/>
+	<rect x="4" y="2" width="24" height="5" fill="#000080"/>
+	<line x1="7" y1="10" x2="25" y2="10" stroke="#000" stroke-width="1"/>
+	<line x1="7" y1="13" x2="25" y2="13" stroke="#808080" stroke-width="1"/>
+	<line x1="7" y1="16" x2="20" y2="16" stroke="#808080" stroke-width="1"/>
+	<line x1="7" y1="19" x2="23" y2="19" stroke="#808080" stroke-width="1"/>
+	<line x1="7" y1="22" x2="18" y2="22" stroke="#808080" stroke-width="1"/>
+	<line x1="7" y1="25" x2="22" y2="25" stroke="#808080" stroke-width="1"/>
+</symbol>
+
+<!-- Folder (32px for desktop) -->
+<symbol id="icon-folder-32" viewBox="0 0 32 32">
+	<rect x="2" y="8" width="28" height="20" fill="#FFC800" stroke="#000" stroke-width="1"/>
+	<polygon points="2,8 14,8 16,4 2,4" fill="#FFC800" stroke="#000" stroke-width="1"/>
+	<rect x="3" y="10" width="26" height="1" fill="#FFE87C"/>
+	<rect x="3" y="12" width="26" height="1" fill="#FFE87C" opacity="0.5"/>
+</symbol>
+
+<!-- Computer (32px for desktop) -->
+<symbol id="icon-computer-32" viewBox="0 0 32 32">
+	<rect x="3" y="2" width="26" height="18" fill="#C0C0C0" stroke="#000" stroke-width="1"/>
+	<rect x="5" y="4" width="22" height="13" fill="#000080"/>
+	<rect x="8" y="21" width="16" height="3" fill="#C0C0C0" stroke="#000" stroke-width="1"/>
+	<rect x="5" y="24" width="22" height="3" fill="#C0C0C0" stroke="#000" stroke-width="1"/>
+	<rect x="7" y="6" width="6" height="4" fill="#008080"/>
+	<rect x="15" y="6" width="3" height="3" fill="#FFC800"/>
+	<circle cx="25" cy="22" r="1" fill="#00FF00"/>
+</symbol>
+
+</svg>

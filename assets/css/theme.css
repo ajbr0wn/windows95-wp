@@ -1,0 +1,1063 @@
+/* ============================================
+   Windows 95 WordPress Theme Layout
+   Ties the Win95 UI components into WP.
+   ============================================ */
+
+/* --- Global --- */
+html {
+	height: 100%;
+}
+
+body.win95-desktop {
+	margin: 0;
+	padding: 0;
+	background-color: var(--win95-desktop);
+	font-family: var(--win95-font);
+	font-size: var(--win95-font-size);
+	min-height: 100vh;
+	display: flex;
+	flex-direction: column;
+	cursor: default;
+	overflow: hidden;
+}
+
+a {
+	color: var(--win95-title-active);
+}
+
+a:visited {
+	color: #800080;
+}
+
+/* Override visited purple in UI chrome — keep it black/white */
+.start-menu-link,
+.start-menu-link:visited,
+.win95-dropdown a,
+.win95-dropdown a:visited,
+.win95-menu-bar a,
+.win95-menu-bar a:visited,
+.win95-menu-bar button,
+.post-item__title a,
+.post-item__title a:visited,
+.post-navigation a,
+.post-navigation a:visited,
+.post-meta a,
+.post-meta a:visited {
+	color: var(--win95-text);
+}
+
+.start-menu-link:hover,
+.win95-dropdown a:hover,
+.win95-menu-bar a:hover,
+.win95-menu-bar button:hover {
+	color: var(--win95-text-highlight);
+}
+
+.post-item__title a:hover,
+.post-navigation a:hover {
+	color: var(--win95-title-active);
+}
+
+.desktop-icon,
+.desktop-icon:visited,
+.desktop-icon:link {
+	color: #ffffff;
+}
+
+img {
+	max-width: 100%;
+	height: auto;
+}
+
+/* --- Desktop Area --- */
+.desktop {
+	flex: 1;
+	position: relative;
+	overflow: hidden;
+	padding: 8px;
+}
+
+/* --- Desktop Icons Grid --- */
+.desktop-icons-grid {
+	position: absolute;
+	top: 8px;
+	left: 8px;
+	bottom: 8px;
+	display: flex;
+	flex-direction: column;
+	flex-wrap: wrap;
+	align-content: flex-start;
+	gap: 8px;
+	z-index: 1;
+	pointer-events: none;
+}
+
+.desktop-icons-grid .desktop-icon {
+	pointer-events: auto;
+}
+
+/* --- Desktop Icons --- */
+.desktop-icon {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	width: 72px;
+	padding: 4px;
+	text-decoration: none;
+	color: #ffffff;
+	text-align: center;
+	cursor: pointer;
+	border: 1px solid transparent;
+	position: relative;
+	z-index: 1;
+}
+
+.desktop-icon:hover {
+	color: #ffffff;
+}
+
+.desktop-icon:focus,
+.desktop-icon.is-selected {
+	border: 1px dotted #ffffff;
+	background: rgba(0, 0, 128, 0.4);
+	outline: none;
+}
+
+.desktop-icon.is-selected .desktop-icon__label,
+.desktop-icon:focus .desktop-icon__label {
+	background: #000080;
+	color: #ffffff;
+}
+
+.desktop-icon__image {
+	width: 32px;
+	height: 32px;
+	margin-bottom: 4px;
+	image-rendering: pixelated;
+}
+
+.desktop-icon__label {
+	font-family: var(--win95-font);
+	font-size: var(--win95-font-size);
+	text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.8);
+	line-height: 1.2;
+	word-wrap: break-word;
+	max-width: 72px;
+}
+
+/* --- Main Content Window --- */
+.main-window {
+	position: absolute;
+	top: 16px;
+	left: 192px;
+	width: calc(100% - 208px);
+	height: calc(100% - 32px);
+	max-width: 900px;
+	display: flex;
+	flex-direction: column;
+	overflow: hidden;
+	min-width: 320px;
+	min-height: 200px;
+}
+
+.main-window .win95-window-body {
+	flex: 1;
+	overflow-y: auto;
+	background: var(--win95-bg-white);
+	padding: 16px;
+	box-shadow:
+		inset -1px -1px 0 0 var(--win95-bg-white),
+		inset 1px 1px 0 0 var(--win95-bg-dark),
+		inset -2px -2px 0 0 var(--win95-bg-light),
+		inset 2px 2px 0 0 var(--win95-bg-darkest);
+}
+
+/* --- Address Bar --- */
+.win95-address-bar {
+	display: flex;
+	align-items: center;
+	gap: 4px;
+	padding: 2px 4px;
+	margin-bottom: 2px;
+	background: var(--win95-bg);
+}
+
+.win95-address-bar__label {
+	font-family: var(--win95-font);
+	font-size: var(--win95-font-size);
+	white-space: nowrap;
+}
+
+.win95-address-bar__input {
+	flex: 1;
+}
+
+/* --- Toolbar --- */
+.win95-toolbar {
+	display: flex;
+	align-items: center;
+	gap: 2px;
+	padding: 2px 4px;
+	margin-bottom: 2px;
+}
+
+.win95-toolbar__btn {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	padding: 2px 4px;
+	font-family: var(--win95-font);
+	font-size: 10px;
+	background: none;
+	border: none;
+	cursor: pointer;
+	color: var(--win95-text);
+}
+
+.win95-toolbar__btn:hover {
+	box-shadow:
+		inset -1px -1px 0 0 var(--win95-bg-dark),
+		inset 1px 1px 0 0 var(--win95-bg-white);
+}
+
+.win95-toolbar__btn:active {
+	box-shadow:
+		inset -1px -1px 0 0 var(--win95-bg-white),
+		inset 1px 1px 0 0 var(--win95-bg-dark);
+}
+
+.win95-toolbar__separator {
+	width: 2px;
+	height: 22px;
+	margin: 0 2px;
+	background: var(--win95-bg-dark);
+	border-right: 1px solid var(--win95-bg-white);
+}
+
+/* --- Post list (index) --- */
+.post-list {
+	list-style: none;
+	padding: 0;
+	margin: 0;
+}
+
+.post-item {
+	padding: 8px 0;
+	border-bottom: 1px solid var(--win95-bg);
+}
+
+.post-item:last-child {
+	border-bottom: none;
+}
+
+.post-item__title {
+	margin: 0 0 4px;
+	font-family: var(--win95-font);
+	font-size: 14px;
+	font-weight: bold;
+}
+
+.post-item__title a {
+	color: var(--win95-text);
+	text-decoration: none;
+}
+
+.post-item__title a:hover {
+	color: var(--win95-title-active);
+	text-decoration: underline;
+}
+
+.post-item__meta {
+	font-size: 10px;
+	color: var(--win95-text-disabled);
+	margin-bottom: 4px;
+}
+
+.post-item__excerpt {
+	font-family: var(--win95-font);
+	font-size: var(--win95-font-size);
+	line-height: 1.5;
+	color: var(--win95-text);
+}
+
+.post-item__thumbnail {
+	float: left;
+	margin: 0 8px 4px 0;
+	border: 1px solid var(--win95-bg-dark);
+}
+
+.post-item__thumbnail img {
+	display: block;
+	width: 80px;
+	height: 60px;
+	object-fit: cover;
+}
+
+/* --- Single Post / Page --- */
+.single-content {
+	font-family: var(--win95-font);
+	font-size: 13px;
+	line-height: 1.6;
+	color: var(--win95-text);
+}
+
+.single-content h1 { font-size: 20px; margin: 16px 0 8px; }
+.single-content h2 { font-size: 17px; margin: 14px 0 6px; }
+.single-content h3 { font-size: 14px; margin: 12px 0 6px; }
+.single-content h4 { font-size: 13px; margin: 10px 0 4px; }
+
+.single-content p {
+	margin: 0 0 12px;
+}
+
+.single-content blockquote {
+	margin: 12px 0;
+	padding: 8px 12px;
+	background: #ffffe1;
+	border-left: 3px solid var(--win95-title-active);
+	font-style: italic;
+}
+
+.single-content code {
+	font-family: var(--win95-font-mono);
+	font-size: 12px;
+	background: var(--win95-bg);
+	padding: 1px 4px;
+}
+
+.single-content pre {
+	background: var(--win95-bg-darkest);
+	color: #00ff00;
+	font-family: var(--win95-font-mono);
+	font-size: 12px;
+	padding: 12px;
+	overflow-x: auto;
+	margin: 12px 0;
+	box-shadow:
+		inset -1px -1px 0 0 var(--win95-bg-white),
+		inset 1px 1px 0 0 var(--win95-bg-dark);
+}
+
+.single-content pre code {
+	background: none;
+	padding: 0;
+	color: inherit;
+}
+
+.single-content ul, .single-content ol {
+	margin: 0 0 12px 24px;
+}
+
+.single-content li {
+	margin-bottom: 4px;
+}
+
+.single-content img {
+	border: 1px solid var(--win95-bg-dark);
+}
+
+.single-content table {
+	width: 100%;
+	border-collapse: collapse;
+	margin: 12px 0;
+}
+
+.single-content th,
+.single-content td {
+	border: 1px solid var(--win95-bg-dark);
+	padding: 4px 8px;
+	text-align: left;
+	font-size: var(--win95-font-size);
+}
+
+.single-content th {
+	background: var(--win95-bg);
+	font-weight: bold;
+}
+
+/* --- Post Meta Bar --- */
+.post-meta {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 12px;
+	font-size: 10px;
+	color: var(--win95-text-disabled);
+	padding: 4px 0 8px;
+	border-bottom: 1px solid var(--win95-bg);
+	margin-bottom: 12px;
+}
+
+.post-meta a {
+	color: var(--win95-text-disabled);
+}
+
+.post-meta a:hover {
+	color: var(--win95-title-active);
+}
+
+/* --- Post Navigation --- */
+.post-navigation {
+	display: flex;
+	justify-content: space-between;
+	gap: 8px;
+	padding-top: 12px;
+	margin-top: 12px;
+	border-top: 1px solid var(--win95-bg);
+}
+
+.post-navigation a {
+	font-size: var(--win95-font-size);
+}
+
+/* --- Pagination --- */
+.pagination {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	gap: 4px;
+	padding: 12px 0;
+}
+
+.pagination .page-numbers {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	min-width: 23px;
+	height: 23px;
+	padding: 0 6px;
+	font-family: var(--win95-font);
+	font-size: var(--win95-font-size);
+	text-decoration: none;
+	color: var(--win95-text);
+	background: var(--win95-bg);
+	box-shadow:
+		inset -1px -1px 0 0 var(--win95-bg-darkest),
+		inset 1px 1px 0 0 var(--win95-bg-white),
+		inset -2px -2px 0 0 var(--win95-bg-dark),
+		inset 2px 2px 0 0 var(--win95-bg-light);
+}
+
+.pagination .page-numbers.current {
+	box-shadow:
+		inset -1px -1px 0 0 var(--win95-bg-white),
+		inset 1px 1px 0 0 var(--win95-bg-darkest),
+		inset -2px -2px 0 0 var(--win95-bg-light),
+		inset 2px 2px 0 0 var(--win95-bg-dark);
+	background: var(--win95-highlight);
+	color: var(--win95-text-highlight);
+}
+
+/* --- Comments --- */
+.comments-window {
+	margin-top: 16px;
+	/* Override window chrome — this is embedded inside the main window body */
+	box-shadow: none !important;
+	padding: 0;
+	background: transparent;
+}
+
+.comments-window .win95-title-bar {
+	background: linear-gradient(90deg, var(--win95-title-active), #1084d0);
+}
+
+.comments-window .win95-window-body {
+	background: var(--win95-bg-white);
+	box-shadow:
+		inset -1px -1px 0 0 var(--win95-bg-white),
+		inset 1px 1px 0 0 var(--win95-bg-dark),
+		inset -2px -2px 0 0 var(--win95-bg-light),
+		inset 2px 2px 0 0 var(--win95-bg-darkest);
+	padding: 8px;
+}
+
+.comment-list {
+	list-style: none;
+	padding: 0;
+	margin: 0;
+}
+
+.comment-item {
+	padding: 8px;
+	margin-bottom: 4px;
+	background: var(--win95-bg);
+	box-shadow:
+		inset -1px -1px 0 0 var(--win95-bg-white),
+		inset 1px 1px 0 0 var(--win95-bg-dark);
+}
+
+.comment-item .children {
+	list-style: none;
+	padding-left: 16px;
+	margin-top: 8px;
+}
+
+.comment-author {
+	font-weight: bold;
+	font-size: var(--win95-font-size);
+}
+
+.comment-date {
+	font-size: 10px;
+	color: var(--win95-text-disabled);
+}
+
+.comment-body p {
+	margin: 4px 0;
+	font-size: var(--win95-font-size);
+	line-height: 1.5;
+}
+
+.comment-form label {
+	display: block;
+	font-size: var(--win95-font-size);
+	margin-bottom: 2px;
+}
+
+.comment-form input[type="text"],
+.comment-form input[type="email"],
+.comment-form input[type="url"] {
+	width: 100%;
+	max-width: 300px;
+	margin-bottom: 8px;
+}
+
+.comment-form textarea {
+	width: 100%;
+	min-height: 100px;
+	margin-bottom: 8px;
+}
+
+/* --- Taskbar --- */
+.taskbar {
+	position: fixed;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	display: flex;
+	align-items: center;
+	height: 28px;
+	background: var(--win95-bg);
+	padding: 2px;
+	flex-shrink: 0;
+	box-shadow:
+		inset 0 1px 0 0 var(--win95-bg-white);
+	z-index: 9999;
+}
+
+/* --- Start Button --- */
+.start-button {
+	display: flex;
+	align-items: center;
+	gap: 4px;
+	height: 22px;
+	padding: 0 6px;
+	font-family: var(--win95-font);
+	font-size: var(--win95-font-size);
+	font-weight: bold;
+	background: var(--win95-bg);
+	border: none;
+	cursor: pointer;
+	box-shadow:
+		inset -1px -1px 0 0 var(--win95-bg-darkest),
+		inset 1px 1px 0 0 var(--win95-bg-white),
+		inset -2px -2px 0 0 var(--win95-bg-dark),
+		inset 2px 2px 0 0 var(--win95-bg-light);
+	color: var(--win95-text);
+	flex-shrink: 0;
+}
+
+.start-button:active,
+.start-button.is-active {
+	box-shadow:
+		inset -1px -1px 0 0 var(--win95-bg-white),
+		inset 1px 1px 0 0 var(--win95-bg-darkest),
+		inset -2px -2px 0 0 var(--win95-bg-light),
+		inset 2px 2px 0 0 var(--win95-bg-dark);
+	padding: 1px 5px 0 7px;
+}
+
+.start-button__logo {
+	width: 16px;
+	height: 16px;
+	image-rendering: pixelated;
+}
+
+/* --- Start Menu --- */
+.start-menu {
+	display: none;
+	position: fixed;
+	bottom: 28px;
+	left: 0;
+	width: 180px;
+	background: var(--win95-bg);
+	z-index: 10000;
+	box-shadow:
+		inset -1px -1px 0 0 var(--win95-bg-darkest),
+		inset 1px 1px 0 0 var(--win95-bg-white),
+		inset -2px -2px 0 0 var(--win95-bg-dark),
+		inset 2px 2px 0 0 var(--win95-bg-light);
+	padding: 3px;
+}
+
+.start-menu.is-open {
+	display: flex;
+}
+
+.start-menu__sidebar {
+	width: 22px;
+	background: var(--win95-bg-dark);
+	display: flex;
+	align-items: flex-end;
+	padding: 4px 2px;
+	flex-shrink: 0;
+}
+
+.start-menu__sidebar-text {
+	writing-mode: vertical-rl;
+	transform: rotate(180deg);
+	color: var(--win95-bg-light);
+	font-family: var(--win95-font);
+	font-size: 14px;
+	font-weight: bold;
+	letter-spacing: 2px;
+}
+
+.start-menu__sidebar-text span {
+	color: var(--win95-bg-white);
+}
+
+.start-menu__content {
+	flex: 1;
+	padding: 2px 0;
+}
+
+.start-menu__items {
+	list-style: none;
+	padding: 0;
+	margin: 0;
+}
+
+.start-menu-item {
+	list-style: none;
+}
+
+.start-menu-link {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	padding: 4px 8px;
+	text-decoration: none;
+	color: var(--win95-text);
+	font-family: var(--win95-font);
+	font-size: var(--win95-font-size);
+}
+
+.start-menu-link:hover {
+	background: var(--win95-highlight);
+	color: var(--win95-text-highlight);
+}
+
+.start-menu-icon {
+	width: 16px;
+	height: 16px;
+	background: var(--win95-bg-dark);
+	flex-shrink: 0;
+}
+
+/* SVG icons in start menu and elsewhere */
+.win95-icon {
+	flex-shrink: 0;
+	image-rendering: pixelated;
+}
+
+.start-menu-link .win95-icon {
+	width: 16px;
+	height: 16px;
+}
+
+.start-menu-link:hover .win95-icon {
+	/* Slight brightness on hover for visibility against blue */
+	filter: brightness(1.2);
+}
+
+.start-menu-arrow {
+	margin-left: auto;
+	font-size: 8px;
+	line-height: 1;
+}
+
+.start-menu-link:hover .start-menu-arrow {
+	color: var(--win95-text-highlight);
+}
+
+.start-menu__separator {
+	height: 1px;
+	margin: 2px 4px;
+	background: var(--win95-bg-dark);
+	border-bottom: 1px solid var(--win95-bg-white);
+}
+
+/* --- Quick Launch --- */
+.quick-launch {
+	display: flex;
+	align-items: center;
+	gap: 2px;
+	padding: 0 4px;
+	margin-left: 2px;
+	border-left: 1px solid var(--win95-bg-dark);
+	border-right: 1px solid var(--win95-bg-white);
+	height: 22px;
+}
+
+.quick-launch a {
+	display: flex;
+	width: 16px;
+	height: 16px;
+}
+
+/* --- Taskbar Window Buttons --- */
+.taskbar-windows {
+	display: flex;
+	align-items: center;
+	gap: 2px;
+	flex: 1;
+	padding: 0 4px;
+	overflow: hidden;
+}
+
+.taskbar-window-btn {
+	display: flex;
+	align-items: center;
+	gap: 4px;
+	height: 22px;
+	min-width: 120px;
+	max-width: 160px;
+	padding: 0 6px;
+	font-family: var(--win95-font);
+	font-size: var(--win95-font-size);
+	background: var(--win95-bg);
+	border: none;
+	cursor: pointer;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	color: var(--win95-text);
+	/* Raised bevel (default / minimized state) */
+	box-shadow:
+		inset -1px -1px 0 0 var(--win95-bg-darkest),
+		inset 1px 1px 0 0 var(--win95-bg-white),
+		inset -2px -2px 0 0 var(--win95-bg-dark),
+		inset 2px 2px 0 0 var(--win95-bg-light);
+}
+
+/* Active window: sunken bevel + bold text */
+.taskbar-window-btn.is-active {
+	font-weight: bold;
+	box-shadow:
+		inset -1px -1px 0 0 var(--win95-bg-white),
+		inset 1px 1px 0 0 var(--win95-bg-darkest),
+		inset -2px -2px 0 0 var(--win95-bg-light),
+		inset 2px 2px 0 0 var(--win95-bg-dark);
+	/* Subtle checkerboard background like real Win95 active taskbar buttons */
+	background: repeating-conic-gradient(var(--win95-bg) 0% 25%, var(--win95-bg-white) 0% 50%) 50% / 2px 2px;
+}
+
+/* --- System Tray --- */
+.system-tray {
+	display: flex;
+	align-items: center;
+	gap: 6px;
+	padding: 0 8px;
+	height: 22px;
+	margin-left: auto;
+	font-family: var(--win95-font);
+	font-size: var(--win95-font-size);
+	box-shadow:
+		inset -1px -1px 0 0 var(--win95-bg-white),
+		inset 1px 1px 0 0 var(--win95-bg-dark);
+}
+
+/* --- Search Form --- */
+.search-form {
+	display: flex;
+	gap: 4px;
+}
+
+.search-form .search-field {
+	flex: 1;
+}
+
+/* --- Sidebar as a Window --- */
+.sidebar-window {
+	margin-top: 8px;
+}
+
+.sidebar-window .widget {
+	margin-bottom: 8px;
+}
+
+.sidebar-window .widget-title {
+	font-size: var(--win95-font-size);
+	font-weight: bold;
+	margin: 0 0 8px;
+	padding-bottom: 4px;
+	border-bottom: 1px solid var(--win95-bg-dark);
+}
+
+.sidebar-window ul {
+	list-style: none;
+	padding: 0;
+	margin: 0;
+}
+
+.sidebar-window li {
+	padding: 2px 0;
+	font-size: var(--win95-font-size);
+}
+
+/* --- 404 / BSOD --- */
+.bsod {
+	position: fixed;
+	inset: 0;
+	background: #000080;
+	color: #ffffff;
+	font-family: 'Courier New', Courier, monospace;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	z-index: 99999;
+	padding: 48px;
+}
+
+.bsod__content {
+	max-width: 700px;
+	text-align: center;
+}
+
+.bsod__title {
+	background: #a8a8a8;
+	color: #000080;
+	padding: 2px 12px;
+	display: inline-block;
+	font-size: 16px;
+	margin-bottom: 24px;
+}
+
+.bsod__text {
+	font-size: 16px;
+	line-height: 1.6;
+	text-align: left;
+	white-space: pre-line;
+}
+
+.bsod__prompt {
+	margin-top: 24px;
+	font-size: 16px;
+}
+
+.bsod__cursor {
+	animation: blink 1s step-end infinite;
+}
+
+@keyframes blink {
+	50% { opacity: 0; }
+}
+
+/* --- Social Window --- */
+.social-window {
+	position: absolute;
+	z-index: 50;
+	display: flex;
+	flex-direction: column;
+	min-width: 0;
+	width: auto;
+}
+
+.social-window .win95-title-bar {
+	cursor: default;
+}
+
+.social-window__body {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 4px;
+	padding: 6px !important;
+	background: var(--win95-bg) !important;
+	box-shadow: none !important;
+}
+
+.social-link {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 28px;
+	height: 28px;
+	color: var(--win95-text);
+	text-decoration: none;
+	background: var(--win95-bg);
+	box-shadow:
+		inset -1px -1px 0 0 var(--win95-bg-darkest),
+		inset 1px 1px 0 0 var(--win95-bg-white),
+		inset -2px -2px 0 0 var(--win95-bg-dark),
+		inset 2px 2px 0 0 var(--win95-bg-light);
+	transition: none;
+}
+
+.social-link:visited,
+.social-link:hover {
+	color: var(--social-link-hover-color, var(--win95-text));
+}
+
+.social-link:focus {
+	color: var(--social-link-hover-color, var(--win95-text));
+}
+
+.social-link:active {
+	box-shadow:
+		inset -1px -1px 0 0 var(--win95-bg-white),
+		inset 1px 1px 0 0 var(--win95-bg-darkest),
+		inset -2px -2px 0 0 var(--win95-bg-light),
+		inset 2px 2px 0 0 var(--win95-bg-dark);
+}
+
+.social-link__icon {
+	width: 16px;
+	height: 16px;
+}
+
+/* --- PDF Viewer (Acrobat Reader style) --- */
+.pdf-viewer-window .win95-title-bar {
+	background: var(--win95-title-active, #000080);
+}
+
+.pdf-toolbar {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	padding: 2px 4px;
+	background: var(--win95-bg);
+	border-bottom: 1px solid var(--win95-bg-dark);
+	box-shadow:
+		inset 0 -1px 0 0 var(--win95-bg-darkest),
+		inset 0 1px 0 0 var(--win95-bg-white);
+	gap: 2px;
+	flex-shrink: 0;
+}
+
+.pdf-toolbar__group {
+	display: flex;
+	align-items: center;
+	gap: 1px;
+}
+
+.pdf-toolbar__btn {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 22px;
+	height: 22px;
+	font-size: 12px;
+	padding: 0;
+	background: var(--win95-bg);
+	border: none;
+	box-shadow:
+		inset -1px -1px 0 0 var(--win95-bg-darkest),
+		inset 1px 1px 0 0 var(--win95-bg-white),
+		inset -2px -2px 0 0 var(--win95-bg-dark),
+		inset 2px 2px 0 0 var(--win95-bg-light);
+	cursor: pointer;
+	color: var(--win95-text);
+	line-height: 1;
+}
+
+.pdf-toolbar__btn:hover:not(:disabled) {
+	box-shadow:
+		inset -1px -1px 0 0 var(--win95-bg-white),
+		inset 1px 1px 0 0 var(--win95-bg-darkest),
+		inset -2px -2px 0 0 var(--win95-bg-light),
+		inset 2px 2px 0 0 var(--win95-bg-dark);
+}
+
+.pdf-toolbar__btn:disabled {
+	color: var(--win95-bg-dark);
+	cursor: default;
+}
+
+.pdf-toolbar__separator {
+	width: 1px;
+	height: 18px;
+	margin: 0 3px;
+	background: var(--win95-bg-dark);
+	box-shadow: 1px 0 0 var(--win95-bg-white);
+}
+
+.pdf-toolbar__page-display,
+.pdf-toolbar__zoom-display {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	min-width: 40px;
+	height: 18px;
+	padding: 0 4px;
+	font-size: 11px;
+	background: #fff;
+	border: 1px solid var(--win95-bg-dark);
+	box-shadow: inset 1px 1px 0 var(--win95-bg-darkest);
+}
+
+.pdf-viewer-body {
+	background: #808080;
+	padding: 0 !important;
+	display: flex;
+	flex-direction: column;
+}
+
+.pdf-viewer-body embed,
+.pdf-viewer-body iframe,
+.pdf-viewer-body object {
+	flex: 1;
+	min-height: 0;
+	width: 100%;
+	border: none;
+}
+
+/* --- Responsive --- */
+@media (max-width: 768px) {
+	.main-window {
+		position: absolute !important;
+		top: 4px !important;
+		left: 4px !important;
+		width: calc(100% - 8px) !important;
+		height: calc(100% - 8px) !important;
+		max-width: 100%;
+	}
+
+	.desktop {
+		padding: 4px;
+		overflow-y: auto;
+	}
+
+	.desktop-icons-grid {
+		display: none;
+	}
+
+	.start-menu {
+		width: 100%;
+		left: 0;
+		right: 0;
+	}
+
+	.taskbar-window-btn {
+		min-width: 80px;
+	}
+}
+
+@media (max-width: 480px) {
+	.taskbar-windows {
+		display: none;
+	}
+
+	.quick-launch {
+		display: none;
+	}
+}
