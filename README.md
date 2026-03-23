@@ -12,13 +12,13 @@ A WordPress theme that faithfully recreates the Windows 95 desktop experience. D
 - **Taskbar** with Start button, Quick Launch bar, window buttons, and a system clock
 - **Start menu** with configurable navigation (uses WordPress nav menus or auto-generates from pages)
 - **Desktop icons** showing your published Pages with customizable "My Blog" folder
-- **Multi-window support** — clicking desktop icons spawns new windows (up to 5), with AJAX page loading
-- **Window controls** — minimize, maximize, close, double-click title bar to maximize
+- **Multi-window support** -clicking desktop icons spawns new windows (up to 5), with AJAX page loading
+- **Window controls** -minimize, maximize, close, double-click title bar to maximize
 
 ### Content Display
 - **Blog listing** styled as Internet Explorer with address bar, menu bar (File/Edit/View/Help), and status bar
 - **Single posts/pages** open as Notepad-style windows
-- **PDF viewer** — any PDF link automatically opens in a Win95 Acrobat Reader window with toolbar
+- **PDF viewer** -any PDF link automatically opens in a Win95 Acrobat Reader window with toolbar
 - **Comments** rendered as an embedded window with comment count in the title bar
 - **404 page** styled as a Blue Screen of Death
 
@@ -50,14 +50,14 @@ git clone https://github.com/ajbr0wn/windows95-wp.git
 ## Configuration
 
 ### Social Links
-**Appearance → Customize → Social Links** — enter URLs for any networks you want displayed. Leave blank to hide.
+**Appearance → Customize → Social Links** -enter URLs for any networks you want displayed. Leave blank to hide.
 
 ### Blog Folder Label
-**Appearance → Customize → Social Links → Blog Folder Label** — customize the desktop icon text (default: "My Blog").
+**Appearance → Customize → Social Links → Blog Folder Label** -customize the desktop icon text (default: "My Blog").
 
 ### Navigation Menus
-- **Start Menu** — assign a menu to the "Start Menu" location for custom Start menu items
-- **Quick Launch Bar** — assign a menu to the "Quick Launch Bar" location
+- **Start Menu** -assign a menu to the "Start Menu" location for custom Start menu items
+- **Quick Launch Bar** -assign a menu to the "Quick Launch Bar" location
 
 ### Desktop Icons
 Desktop icons are auto-generated from your published Pages (up to 6, sorted by menu order). The "My Computer" icon links to your homepage, and "My Blog" links to your Posts page.
@@ -102,4 +102,4 @@ windows95-wp/
 
 ## License
 
-GPL-2.0 — same as WordPress.
+GPL-2.0 -same as WordPress.

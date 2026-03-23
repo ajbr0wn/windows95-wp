@@ -208,6 +208,205 @@ class Win95_Start_Menu_Walker extends Walker_Nav_Menu {
 }
 
 /**
+ * Register Reading custom post types (Books & Papers).
+ */
+function win95_register_reading_post_types() {
+	// Books
+	register_post_type( 'win95_book', array(
+		'labels' => array(
+			'name'               => __( 'Books', 'win95' ),
+			'singular_name'      => __( 'Book', 'win95' ),
+			'add_new'            => __( 'Add New Book', 'win95' ),
+			'add_new_item'       => __( 'Add New Book', 'win95' ),
+			'edit_item'          => __( 'Edit Book', 'win95' ),
+			'new_item'           => __( 'New Book', 'win95' ),
+			'view_item'          => __( 'View Book', 'win95' ),
+			'search_items'       => __( 'Search Books', 'win95' ),
+			'not_found'          => __( 'No books found', 'win95' ),
+			'not_found_in_trash' => __( 'No books found in Trash', 'win95' ),
+			'menu_name'          => __( 'Books', 'win95' ),
+		),
+		'public'       => false,
+		'show_ui'      => true,
+		'show_in_menu' => true,
+		'menu_icon'    => 'dashicons-book',
+		'supports'     => array( 'title', 'editor', 'thumbnail' ),
+		'has_archive'  => false,
+		'rewrite'      => false,
+	) );
+
+	// Papers
+	register_post_type( 'win95_paper', array(
+		'labels' => array(
+			'name'               => __( 'Papers', 'win95' ),
+			'singular_name'      => __( 'Paper', 'win95' ),
+			'add_new'            => __( 'Add New Paper', 'win95' ),
+			'add_new_item'       => __( 'Add New Paper', 'win95' ),
+			'edit_item'          => __( 'Edit Paper', 'win95' ),
+			'new_item'           => __( 'New Paper', 'win95' ),
+			'view_item'          => __( 'View Paper', 'win95' ),
+			'search_items'       => __( 'Search Papers', 'win95' ),
+			'not_found'          => __( 'No papers found', 'win95' ),
+			'not_found_in_trash' => __( 'No papers found in Trash', 'win95' ),
+			'menu_name'          => __( 'Papers', 'win95' ),
+		),
+		'public'       => false,
+		'show_ui'      => true,
+		'show_in_menu' => true,
+		'menu_icon'    => 'dashicons-media-document',
+		'supports'     => array( 'title', 'editor', 'thumbnail' ),
+		'has_archive'  => false,
+		'rewrite'      => false,
+	) );
+}
+add_action( 'init', 'win95_register_reading_post_types' );
+
+/**
+ * Register meta boxes for Books and Papers.
+ */
+function win95_reading_meta_boxes() {
+	add_meta_box(
+		'win95_book_details',
+		__( 'Book Details', 'win95' ),
+		'win95_book_meta_box_cb',
+		'win95_book',
+		'normal',
+		'high'
+	);
+	add_meta_box(
+		'win95_paper_details',
+		__( 'Paper Details', 'win95' ),
+		'win95_paper_meta_box_cb',
+		'win95_paper',
+		'normal',
+		'high'
+	);
+}
+add_action( 'add_meta_boxes', 'win95_reading_meta_boxes' );
+
+function win95_book_meta_box_cb( $post ) {
+	wp_nonce_field( 'win95_book_meta', 'win95_book_meta_nonce' );
+	$author   = get_post_meta( $post->ID, '_win95_book_author', true );
+	$year     = get_post_meta( $post->ID, '_win95_book_year', true );
+	$rating   = get_post_meta( $post->ID, '_win95_book_rating', true );
+	$color    = get_post_meta( $post->ID, '_win95_book_color', true );
+	$url      = get_post_meta( $post->ID, '_win95_book_url', true );
+	?>
+	<p>
+		<label for="win95_book_author"><strong><?php _e( 'Author', 'win95' ); ?></strong></label><br>
+		<input type="text" id="win95_book_author" name="win95_book_author" value="<?php echo esc_attr( $author ); ?>" style="width:100%">
+	</p>
+	<p>
+		<label for="win95_book_year"><strong><?php _e( 'Year Read', 'win95' ); ?></strong></label><br>
+		<input type="number" id="win95_book_year" name="win95_book_year" value="<?php echo esc_attr( $year ); ?>" min="1900" max="2099" style="width:100px">
+	</p>
+	<p>
+		<label for="win95_book_rating"><strong><?php _e( 'Rating (1-5)', 'win95' ); ?></strong></label><br>
+		<input type="number" id="win95_book_rating" name="win95_book_rating" value="<?php echo esc_attr( $rating ); ?>" min="1" max="5" style="width:60px">
+	</p>
+	<p>
+		<label for="win95_book_color"><strong><?php _e( 'Spine Color', 'win95' ); ?></strong></label><br>
+		<input type="color" id="win95_book_color" name="win95_book_color" value="<?php echo esc_attr( $color ?: '#000080' ); ?>">
+		<span class="description"><?php _e( 'Color of the book spine on the shelf.', 'win95' ); ?></span>
+	</p>
+	<p>
+		<label for="win95_book_url"><strong><?php _e( 'Link URL (optional)', 'win95' ); ?></strong></label><br>
+		<input type="url" id="win95_book_url" name="win95_book_url" value="<?php echo esc_attr( $url ); ?>" style="width:100%" placeholder="https://...">
+		<span class="description"><?php _e( 'External link (e.g. Goodreads, publisher page).', 'win95' ); ?></span>
+	</p>
+	<?php
+}
+
+function win95_paper_meta_box_cb( $post ) {
+	wp_nonce_field( 'win95_paper_meta', 'win95_paper_meta_nonce' );
+	$authors  = get_post_meta( $post->ID, '_win95_paper_authors', true );
+	$year     = get_post_meta( $post->ID, '_win95_paper_year', true );
+	$venue    = get_post_meta( $post->ID, '_win95_paper_venue', true );
+	$url      = get_post_meta( $post->ID, '_win95_paper_url', true );
+	$color    = get_post_meta( $post->ID, '_win95_paper_color', true );
+	?>
+	<p>
+		<label for="win95_paper_authors"><strong><?php _e( 'Authors', 'win95' ); ?></strong></label><br>
+		<input type="text" id="win95_paper_authors" name="win95_paper_authors" value="<?php echo esc_attr( $authors ); ?>" style="width:100%">
+	</p>
+	<p>
+		<label for="win95_paper_year"><strong><?php _e( 'Year Read', 'win95' ); ?></strong></label><br>
+		<input type="number" id="win95_paper_year" name="win95_paper_year" value="<?php echo esc_attr( $year ); ?>" min="1900" max="2099" style="width:100px">
+	</p>
+	<p>
+		<label for="win95_paper_venue"><strong><?php _e( 'Venue / Journal', 'win95' ); ?></strong></label><br>
+		<input type="text" id="win95_paper_venue" name="win95_paper_venue" value="<?php echo esc_attr( $venue ); ?>" style="width:100%">
+	</p>
+	<p>
+		<label for="win95_paper_url"><strong><?php _e( 'Link URL (optional)', 'win95' ); ?></strong></label><br>
+		<input type="url" id="win95_paper_url" name="win95_paper_url" value="<?php echo esc_attr( $url ); ?>" style="width:100%" placeholder="https://arxiv.org/...">
+	</p>
+	<p>
+		<label for="win95_paper_color"><strong><?php _e( 'Spine Color', 'win95' ); ?></strong></label><br>
+		<input type="color" id="win95_paper_color" name="win95_paper_color" value="<?php echo esc_attr( $color ?: '#800000' ); ?>">
+	</p>
+	<?php
+}
+
+/**
+ * Save reading meta.
+ */
+function win95_save_reading_meta( $post_id ) {
+	// Books
+	if ( isset( $_POST['win95_book_meta_nonce'] ) && wp_verify_nonce( $_POST['win95_book_meta_nonce'], 'win95_book_meta' ) ) {
+		if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) return;
+		if ( ! current_user_can( 'edit_post', $post_id ) ) return;
+
+		$fields = array( 'win95_book_author', 'win95_book_year', 'win95_book_rating', 'win95_book_color', 'win95_book_url' );
+		foreach ( $fields as $field ) {
+			if ( isset( $_POST[ $field ] ) ) {
+				update_post_meta( $post_id, '_' . $field, sanitize_text_field( $_POST[ $field ] ) );
+			}
+		}
+	}
+
+	// Papers
+	if ( isset( $_POST['win95_paper_meta_nonce'] ) && wp_verify_nonce( $_POST['win95_paper_meta_nonce'], 'win95_paper_meta' ) ) {
+		if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) return;
+		if ( ! current_user_can( 'edit_post', $post_id ) ) return;
+
+		$fields = array( 'win95_paper_authors', 'win95_paper_year', 'win95_paper_venue', 'win95_paper_url', 'win95_paper_color' );
+		foreach ( $fields as $field ) {
+			if ( isset( $_POST[ $field ] ) ) {
+				update_post_meta( $post_id, '_' . $field, sanitize_text_field( $_POST[ $field ] ) );
+			}
+		}
+	}
+}
+add_action( 'save_post', 'win95_save_reading_meta' );
+
+/**
+ * Get reading items grouped by year.
+ */
+function win95_get_reading_by_year( $post_type = 'win95_book' ) {
+	$meta_key = ( $post_type === 'win95_paper' ) ? '_win95_paper_year' : '_win95_book_year';
+
+	$items = get_posts( array(
+		'post_type'      => $post_type,
+		'posts_per_page' => -1,
+		'post_status'    => 'publish',
+		'meta_key'       => $meta_key,
+		'orderby'        => 'meta_value_num',
+		'order'          => 'DESC',
+	) );
+
+	$by_year = array();
+	foreach ( $items as $item ) {
+		$year = get_post_meta( $item->ID, $meta_key, true );
+		if ( ! $year ) $year = __( 'Unknown', 'win95' );
+		$by_year[ $year ][] = $item;
+	}
+
+	krsort( $by_year );
+	return $by_year;
+}
+
+/**
  * Customize excerpt length.
  */
 function win95_excerpt_length( $length ) {
@@ -251,7 +450,7 @@ function win95_icon_sprite() {
 add_action( 'wp_footer', 'win95_icon_sprite', 5 );
 
 /**
- * Return an icon element — raster PNG primary with SVG fallback.
+ * Return an icon element -raster PNG primary with SVG fallback.
  */
 function win95_icon( $name, $size = 16 ) {
 	$png_url = get_template_directory_uri() . '/assets/icons/' . $name . '.png';

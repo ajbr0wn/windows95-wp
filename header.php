@@ -47,6 +47,8 @@
 	// Determine window title
 	if ( is_home() || is_front_page() ) {
 		$window_title = get_bloginfo( 'name' ) . ' - Internet Explorer';
+	} elseif ( is_page_template( 'page-bookshelf.php' ) ) {
+		$window_title = get_the_title() . ' - Explorer';
 	} elseif ( is_single() || is_page() ) {
 		$window_title = get_the_title() . ' - Notepad';
 	} elseif ( is_archive() ) {
@@ -63,7 +65,9 @@
 		<div class="win95-title-bar" id="main-title-bar">
 			<?php
 			// Show appropriate icon in title bar
-			if ( is_single() || is_page() ) {
+			if ( is_page_template( 'page-bookshelf.php' ) ) {
+				$title_icon = 'folder-32';
+			} elseif ( is_single() || is_page() ) {
 				$title_icon = 'document';
 			} else {
 				$title_icon = 'ie';
