@@ -12,21 +12,27 @@ A WordPress theme that faithfully recreates the Windows 95 desktop experience. D
 - **Taskbar** with Start button, Quick Launch bar, window buttons, and a system clock
 - **Start menu** with configurable navigation (uses WordPress nav menus or auto-generates from pages)
 - **Desktop icons** showing your published Pages with customizable "My Blog" folder
-- **Multi-window support** -clicking desktop icons spawns new windows (up to 5), with AJAX page loading
-- **Window controls** -minimize, maximize, close, double-click title bar to maximize
+- **Multi-window support**: clicking desktop icons spawns new windows (up to 5), with AJAX page loading
+- **Window controls**: minimize, maximize, close, double-click title bar to maximize
 
 ### Content Display
 - **Blog listing** styled as Internet Explorer with address bar, menu bar (File/Edit/View/Help), and status bar
 - **Single posts/pages** open as Notepad-style windows
-- **PDF viewer** -any PDF link automatically opens in a Win95 Acrobat Reader window with toolbar
+- **PDF viewer** that automatically opens PDF links in a Win95 Acrobat Reader window with toolbar
 - **Comments** rendered as an embedded window with comment count in the title bar
 - **404 page** styled as a Blue Screen of Death
+
+### Reading Tracker
+- **Bookshelf page template** displaying books and papers on wooden shelves, grouped by year
+- **Books and Papers** as custom post types with author, year read, rating, spine color, and external links
+- **Properties dialog** shows cover art, details, star rating, and notes when you click a book
+- Collapsible year folders in the style of Windows Explorer
 
 ### Social Links
 - Configurable social window (bottom-right) with beveled icon buttons
 - Supports 15 networks: Twitter/X, Discord, GitHub, YouTube, Twitch, Instagram, Facebook, LinkedIn, Mastodon, Reddit, TikTok, Bluesky, Email, RSS, Website
 - Quick Launch shortcut in the taskbar
-- Configured via **Appearance → Customize → Social Links**
+- Configured via **Appearance > Customize > Social Links**
 
 ### Styling
 - **W95FA pixel font** for authentic text rendering
@@ -38,7 +44,7 @@ A WordPress theme that faithfully recreates the Windows 95 desktop experience. D
 ## Installation
 
 1. Download the `windows95-wp.zip` from this repo
-2. In WordPress admin: **Appearance → Themes → Add New → Upload Theme**
+2. In WordPress admin: **Appearance > Themes > Add New > Upload Theme**
 3. Upload the zip and activate
 
 Or clone directly into your themes directory:
@@ -50,20 +56,23 @@ git clone https://github.com/ajbr0wn/windows95-wp.git
 ## Configuration
 
 ### Social Links
-**Appearance → Customize → Social Links** -enter URLs for any networks you want displayed. Leave blank to hide.
+Enter URLs for any networks you want displayed under **Appearance > Customize > Social Links**. Leave blank to hide.
 
 ### Blog Folder Label
-**Appearance → Customize → Social Links → Blog Folder Label** -customize the desktop icon text (default: "My Blog").
+Customize the desktop icon text (default: "My Blog") under **Appearance > Customize > Social Links > Blog Folder Label**.
 
 ### Navigation Menus
-- **Start Menu** -assign a menu to the "Start Menu" location for custom Start menu items
-- **Quick Launch Bar** -assign a menu to the "Quick Launch Bar" location
+- **Start Menu**: assign a menu to the "Start Menu" location for custom Start menu items
+- **Quick Launch Bar**: assign a menu to the "Quick Launch Bar" location
 
 ### Desktop Icons
 Desktop icons are auto-generated from your published Pages (up to 6, sorted by menu order). The "My Computer" icon links to your homepage, and "My Blog" links to your Posts page.
 
+### Bookshelf
+Create a new Page and select the **Bookshelf** template under Page Attributes. Add books and papers from the WordPress admin sidebar.
+
 ### Static Homepage
-For the best experience, set a static homepage (**Settings → Reading**) and assign a separate Posts page.
+For the best experience, set a static homepage (**Settings > Reading**) and assign a separate Posts page.
 
 ## File Structure
 
@@ -86,11 +95,12 @@ windows95-wp/
 ├── index.php                  # Blog post listing
 ├── single.php                 # Single post template
 ├── page.php                   # Page template
+├── page-bookshelf.php         # Bookshelf reading tracker template
 ├── archive.php                # Archive/category listing
 ├── search.php                 # Search results
 ├── comments.php               # Comments as embedded window
 ├── 404.php                    # Blue Screen of Death
-├── functions.php              # Theme setup, Customizer, social links, icon helper
+├── functions.php              # Theme setup, Customizer, social links, reading tracker
 └── style.css                  # Theme metadata
 ```
 
@@ -102,4 +112,4 @@ windows95-wp/
 
 ## License
 
-GPL-2.0 -same as WordPress.
+GPL-2.0, same as WordPress.
