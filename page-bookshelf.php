@@ -310,7 +310,7 @@ $total_papers = wp_count_posts( 'win95_paper' )->publish;
 				currentBooksDiv = document.createElement('div');
 				currentBooksDiv.className = 'bookshelf-shelf__books';
 				/* Unique star background per shelf */
-				var base = 'linear-gradient(180deg, #0a0a10 0%, #0e0e16 40%, #0a0a10 calc(100% - 24px), #c8a882 calc(100% - 24px), #b8935e calc(100% - 10px), #a0784c 100%)';
+				var base = 'linear-gradient(180deg, #0a0a10 0%, #0e0e16 40%, #0a0a10 calc(100% - 24px), #dfdfdf calc(100% - 24px), #c0c0c0 calc(100% - 10px), #a0a0a0 100%)';
 				currentBooksDiv.style.background = randomStars(shelfIdx * 7919 + 1) + ',\n' + base;
 				shelfIdx++;
 				var plank = document.createElement('div');
