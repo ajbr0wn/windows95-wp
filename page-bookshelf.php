@@ -94,9 +94,9 @@ $total_papers = wp_count_posts( 'win95_paper' )->publish;
 							$pages = max( 30, min( 1500, $pages ) );
 
 							// Thickness: correlates with page count + jitter
-							$thickness = round( 18 + ( ( $pages - 30 ) / 1470 ) * 34 );
-							$thick_jitter = ( ( crc32( 't' . $item->ID ) % 8 ) - 4 );
-							$thickness = max( 16, min( 54, $thickness + $thick_jitter ) );
+							$thickness = round( 12 + ( ( $pages - 30 ) / 1470 ) * 52 );
+							$thick_jitter = ( ( crc32( 't' . $item->ID ) % 6 ) - 3 );
+							$thickness = max( 10, min( 64, $thickness + $thick_jitter ) );
 
 							// Series: use series name as seed for height/font so they match
 							$style_seed = ! empty( $item_series ) ? $item_series : 'id-' . $item->ID;
@@ -110,9 +110,9 @@ $total_papers = wp_count_posts( 'win95_paper' )->publish;
 							} else {
 								// Compute height from seed
 								$h_hash = crc32( 'h' . $style_seed );
-								$height_variation = ( ( $h_hash % 40 ) - 20 );
-								$base_height = 85 + ( ( $pages - 30 ) / 1470 ) * 35;
-								$height = round( max( 70, min( 140, $base_height + $height_variation ) ) );
+								$height_variation = ( ( $h_hash % 20 ) - 10 );
+								$base_height = 95 + ( ( $pages - 30 ) / 1470 ) * 55;
+								$height = round( max( 90, min( 165, $base_height + $height_variation ) ) );
 
 								// Font from seed
 								$font_idx = abs( crc32( 'f' . $style_seed ) ) % count( $font_families );
@@ -245,11 +245,39 @@ $total_papers = wp_count_posts( 'win95_paper' )->publish;
 			var currentShelf = null;
 			var currentBooksDiv = null;
 
+			var shelfIdx = 0;
+
+			function randomStars(seed) {
+				/* Simple seeded PRNG so same shelf index = same stars across rebuilds */
+				var s = seed;
+				function rand() { s = (s * 16807 + 0) % 2147483647; return (s & 0x7fffffff) / 0x7fffffff; }
+				var colors = [
+					'255,150,150','150,150,255','150,255,180','255,200,140',
+					'180,150,255','140,255,255','255,150,200','200,150,255',
+					'255,170,170','150,255,200','255,255,150','150,220,255','255,150,255'
+				];
+				var layers = [];
+				var count = 10 + Math.floor(rand() * 6);
+				for (var i = 0; i < count; i++) {
+					var size = 1.5 + rand() * 0.5;
+					var x = (3 + rand() * 94).toFixed(1);
+					var y = (5 + rand() * 75).toFixed(1);
+					var c = colors[Math.floor(rand() * colors.length)];
+					var a = (0.65 + rand() * 0.25).toFixed(2);
+					layers.push('radial-gradient(' + size.toFixed(1) + 'px ' + size.toFixed(1) + 'px at ' + x + '% ' + y + '%, rgba(' + c + ',' + a + '), transparent)');
+				}
+				return layers.join(',\n');
+			}
+
 			function newShelf() {
 				currentShelf = document.createElement('div');
 				currentShelf.className = 'bookshelf-shelf';
 				currentBooksDiv = document.createElement('div');
 				currentBooksDiv.className = 'bookshelf-shelf__books';
+				/* Unique star background per shelf */
+				var base = 'linear-gradient(180deg, #0a0a10 0%, #0e0e16 40%, #0a0a10 calc(100% - 24px), #c8a882 calc(100% - 24px), #b8935e calc(100% - 10px), #a0784c 100%)';
+				currentBooksDiv.style.background = randomStars(shelfIdx * 7919 + 1) + ',\n' + base;
+				shelfIdx++;
 				var plank = document.createElement('div');
 				plank.className = 'bookshelf-shelf__plank';
 				currentShelf.appendChild(currentBooksDiv);
