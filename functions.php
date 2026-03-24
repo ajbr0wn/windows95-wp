@@ -431,6 +431,25 @@ function win95_get_reading_by_year( $post_type = 'win95_book' ) {
 		$by_year[ $year ][] = $item;
 	}
 
+	// Within each year, group series books together
+	$series_key = ( $post_type === 'win95_paper' ) ? '' : '_win95_book_series';
+	if ( $series_key ) {
+		foreach ( $by_year as $year => &$year_items ) {
+			usort( $year_items, function( $a, $b ) use ( $series_key ) {
+				$sa = get_post_meta( $a->ID, $series_key, true );
+				$sb = get_post_meta( $b->ID, $series_key, true );
+				// Series books sort together by series name, then by title
+				// Non-series books sort after all series books, by title
+				if ( $sa && ! $sb ) return -1;
+				if ( ! $sa && $sb ) return 1;
+				if ( $sa && $sb && $sa !== $sb ) return strcmp( $sa, $sb );
+				if ( $sa && $sb ) return strcmp( $a->post_title, $b->post_title );
+				return strcmp( $a->post_title, $b->post_title );
+			} );
+		}
+		unset( $year_items );
+	}
+
 	krsort( $by_year );
 	return $by_year;
 }

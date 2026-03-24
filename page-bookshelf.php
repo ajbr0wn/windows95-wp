@@ -161,9 +161,11 @@ $total_papers = wp_count_posts( 'win95_paper' )->publish;
 								data-type="<?php echo esc_attr( $active_tab === 'papers' ? 'paper' : 'book' ); ?>"
 								onclick="win95OpenBookProperties(this)"
 								title="<?php echo esc_attr( $item->post_title ); ?>">
+								<span class="bookshelf-book__side-left"></span>
 								<span class="bookshelf-book__spine">
 									<span class="bookshelf-book__spine-title"><?php echo esc_html( $spine_display ); ?></span>
 								</span>
+								<span class="bookshelf-book__side-right"></span>
 							</button>
 						<?php endforeach; ?>
 					</div>
@@ -232,15 +234,13 @@ $total_papers = wp_count_posts( 'win95_paper' )->publish;
 			var books = Array.from(container.querySelectorAll('.bookshelf-book'));
 			if (!books.length) return;
 
-			// Clear existing shelf wrappers (for resize rebuilds)
+			// Move all books back to the container, remove old shelves
+			books.forEach(function(b) { container.appendChild(b); });
 			var existingShelves = container.querySelectorAll('.bookshelf-shelf');
-			existingShelves.forEach(function(s) {
-				var booksInside = s.querySelectorAll('.bookshelf-book');
-				booksInside.forEach(function(b) { container.appendChild(b); });
-				s.remove();
-			});
+			existingShelves.forEach(function(s) { s.remove(); });
 
-			var containerWidth = container.offsetWidth - 16; // padding
+			// Measure available width (account for shelf padding: 12px left + 20px right)
+			var containerWidth = container.offsetWidth - 32;
 			var currentRowWidth = 0;
 			var currentShelf = null;
 			var currentBooksDiv = null;
@@ -261,15 +261,15 @@ $total_papers = wp_count_posts( 'win95_paper' )->publish;
 			newShelf();
 
 			books.forEach(function(book) {
-				var bookWidth = book.offsetWidth || parseInt(getComputedStyle(book).getPropertyValue('--book-thickness')) || 32;
-				bookWidth += 3; // gap
+				// Read the CSS variable directly for accurate width
+				var thickness = parseInt(book.style.getPropertyValue('--book-thickness')) || 32;
 
-				if (currentRowWidth + bookWidth > containerWidth && currentRowWidth > 0) {
+				if (currentRowWidth + thickness > containerWidth && currentRowWidth > 0) {
 					newShelf();
 				}
 
 				currentBooksDiv.appendChild(book);
-				currentRowWidth += bookWidth;
+				currentRowWidth += thickness;
 			});
 		});
 	}
@@ -281,12 +281,18 @@ $total_papers = wp_count_posts( 'win95_paper' )->publish;
 		buildShelves();
 	}
 
-	// Rebuild on resize (debounced)
+	// Rebuild on resize (debounced) - use ResizeObserver to catch
+	// Win95 window resizing, not just browser window resizing
 	var resizeTimer;
-	window.addEventListener('resize', function() {
+	function debouncedBuild() {
 		clearTimeout(resizeTimer);
 		resizeTimer = setTimeout(buildShelves, 200);
-	});
+	}
+	window.addEventListener('resize', debouncedBuild);
+	if (typeof ResizeObserver !== 'undefined') {
+		var ro = new ResizeObserver(debouncedBuild);
+		document.querySelectorAll('[data-bookshelf]').forEach(function(c) { ro.observe(c); });
+	}
 })();
 
 /* Properties dialog */
