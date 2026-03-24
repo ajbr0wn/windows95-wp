@@ -1206,7 +1206,7 @@ img {
 	transform: translateY(-3px);
 }
 
-/* Top face: pages seen from above, sunken below the covers */
+/* Top face: pages seen from above with visible line texture */
 .bookshelf-book::before {
 	content: '';
 	position: absolute;
@@ -1214,19 +1214,19 @@ img {
 	left: 0;
 	width: var(--book-thickness, 32px);
 	height: 12px;
-	background: #e8e4d8;
+	background: #ddd8c8;
 	background-image: repeating-linear-gradient(
 		90deg,
 		transparent 0px,
-		transparent 1px,
-		rgba(0, 0, 0, 0.05) 1px,
-		rgba(0, 0, 0, 0.05) 2px
+		transparent 2px,
+		rgba(0, 0, 0, 0.08) 2px,
+		rgba(0, 0, 0, 0.08) 3px
 	);
 	transform: skewX(-45deg);
 	transform-origin: bottom left;
 	box-shadow:
-		inset 0 -1px 0 rgba(0, 0, 0, 0.1),
-		inset 0 1px 0 rgba(255, 255, 255, 0.6);
+		inset 0 -2px 0 rgba(0, 0, 0, 0.2),
+		inset 0 2px 0 rgba(255, 255, 255, 0.5);
 	pointer-events: none;
 	z-index: 0;
 }
@@ -1258,11 +1258,15 @@ img {
 	width: 100%;
 	height: 100%;
 	background: var(--spine-color, #000080);
+	/* Strong pixel bevels + gold inset frame */
 	box-shadow:
-		inset -2px 0 2px rgba(0, 0, 0, 0.3),
-		inset 2px 0 1px rgba(255, 255, 255, 0.12),
-		inset 0 2px 0 rgba(255, 255, 255, 0.08),
-		inset 0 -2px 0 rgba(0, 0, 0, 0.15);
+		/* Gold inset frame */
+		inset 0 0 0 1px rgba(210, 180, 90, 0.35),
+		/* Chunky light/dark bevels outside the frame */
+		inset -2px 0 0 rgba(0, 0, 0, 0.45),
+		inset 2px 0 0 rgba(255, 255, 255, 0.25),
+		inset 0 2px 0 rgba(255, 255, 255, 0.25),
+		inset 0 -2px 0 rgba(0, 0, 0, 0.45);
 	overflow: hidden;
 	z-index: 1;
 }
@@ -1279,49 +1283,91 @@ img {
 	transform: skewY(-45deg);
 	transform-origin: top left;
 	box-shadow:
-		inset -1px 0 0 rgba(0, 0, 0, 0.2);
+		inset -2px 0 0 rgba(0, 0, 0, 0.3),
+		inset 0 2px 0 rgba(255, 255, 255, 0.08);
 	pointer-events: none;
 	z-index: 1;
 }
 
-/* Top and bottom decorative lines on spine */
+/* Gold decorative bands on spine: top + bottom */
 .bookshelf-book__spine::before {
 	content: '';
 	position: absolute;
 	top: 5px;
-	left: 4px;
-	right: 4px;
-	height: 1px;
-	background: rgba(255, 255, 255, 0.2);
-	box-shadow: 0 2px 0 rgba(255, 255, 255, 0.1);
+	left: 3px;
+	right: 3px;
+	height: 2px;
+	background: rgba(210, 180, 90, 0.45);
+	box-shadow:
+		/* Second band below */
+		0 3px 0 rgba(210, 180, 90, 0.2),
+		/* Bottom bands (mirrored) - using large offset to reach bottom */
+		0 calc(var(--book-height, 100px) - 17px) 0 rgba(210, 180, 90, 0.2),
+		0 calc(var(--book-height, 100px) - 14px) 0 rgba(210, 180, 90, 0.45);
+	z-index: 3;
 }
 
+/* Pixel fire dither: gold/warm embers rising from base */
 .bookshelf-book__spine::after {
 	content: '';
 	position: absolute;
-	bottom: 5px;
-	left: 4px;
-	right: 4px;
-	height: 1px;
-	background: rgba(255, 255, 255, 0.2);
-	box-shadow: 0 -2px 0 rgba(255, 255, 255, 0.1);
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background:
+		/* Pixel embers: checkerboard dither in vivid complementary color */
+		repeating-conic-gradient(
+			rgba(var(--spine-comp-rgb, 255,255,127), 0.55) 0% 25%,
+			transparent 0% 50%
+		) 0 0 / var(--dither-size, 8px) var(--dither-size, 8px),
+		/* Hot solid core at the base */
+		linear-gradient(
+			to top,
+			rgba(var(--spine-comp-rgb, 255,255,127), 0.5) 0%,
+			rgba(var(--spine-comp-rgb, 255,255,127), 0.25) 18%,
+			transparent 30%
+		);
+	-webkit-mask-image: linear-gradient(
+		to top,
+		black 0%,
+		black 20%,
+		rgba(0,0,0,0.5) calc(var(--dither-extent, 52%) * 0.65),
+		rgba(0,0,0,0.2) calc(var(--dither-extent, 52%) * 0.85),
+		transparent var(--dither-extent, 52%)
+	);
+	mask-image: linear-gradient(
+		to top,
+		black 0%,
+		black 20%,
+		rgba(0,0,0,0.5) calc(var(--dither-extent, 52%) * 0.65),
+		rgba(0,0,0,0.2) calc(var(--dither-extent, 52%) * 0.85),
+		transparent var(--dither-extent, 52%)
+	);
+	pointer-events: none;
+	z-index: 2;
 }
 
 .bookshelf-book__spine-title {
 	writing-mode: vertical-rl;
 	transform: rotate(180deg);
-	font-family: var(--spine-font, Georgia, serif);
+	font-family: var(--win95-font), var(--spine-font, Georgia, serif);
 	font-size: var(--spine-font-size, 10px);
 	font-weight: var(--spine-font-weight, normal);
 	text-transform: var(--spine-text-transform, none);
-	letter-spacing: 0.3px;
+	letter-spacing: 0.5px;
 	color: var(--spine-text-color, #ffffff);
-	text-shadow: 0 1px 2px rgba(0, 0, 0, 0.4);
+	text-shadow:
+		1px 1px 0 rgba(var(--spine-text-shadow-rgb, 0,0,0), 0.6),
+		-1px -1px 0 rgba(var(--spine-text-shadow-rgb, 0,0,0), 0.2);
 	white-space: nowrap;
 	overflow: hidden;
 	max-height: calc(var(--book-height, 100px) - 30px);
+	image-rendering: pixelated;
 	padding: 0;
 	line-height: 1.15;
+	position: relative;
+	z-index: 3;
 }
 
 /* Properties dialog */

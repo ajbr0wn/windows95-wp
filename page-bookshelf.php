@@ -146,9 +146,44 @@ $total_papers = wp_count_posts( 'win95_paper' )->publish;
 							$b = hexdec( substr( $hex, 4, 2 ) );
 							$luminance = ( 0.299 * $r + 0.587 * $g + 0.114 * $b ) / 255;
 							$text_color = $luminance > 0.55 ? '#000000' : '#ffffff';
+							$text_shadow_color = $luminance > 0.55 ? '255,255,255' : '0,0,0';
+
+							// Complementary color via HSL hue rotation with forced saturation
+							$rf = $r / 255; $gf = $g / 255; $bf = $b / 255;
+							$cmax = max( $rf, $gf, $bf );
+							$cmin = min( $rf, $gf, $bf );
+							$delta = $cmax - $cmin;
+							if ( $delta == 0 ) {
+								$h = 0;
+							} elseif ( $cmax == $rf ) {
+								$h = fmod( ( $gf - $bf ) / $delta, 6 );
+							} elseif ( $cmax == $gf ) {
+								$h = ( $bf - $rf ) / $delta + 2;
+							} else {
+								$h = ( $rf - $gf ) / $delta + 4;
+							}
+							$h = fmod( $h / 6 + 0.5, 1.0 ); // rotate 180 degrees
+							// Convert back to RGB with forced saturation=0.85, lightness=0.6
+							$cs = 0.85; $cl = 0.6;
+							$c2 = ( 1 - abs( 2 * $cl - 1 ) ) * $cs;
+							$x2 = $c2 * ( 1 - abs( fmod( $h * 6, 2 ) - 1 ) );
+							$m2 = $cl - $c2 / 2;
+							$h6 = $h * 6;
+							if ( $h6 < 1 )      { $cr = $c2; $cg = $x2; $cb = 0; }
+							elseif ( $h6 < 2 )  { $cr = $x2; $cg = $c2; $cb = 0; }
+							elseif ( $h6 < 3 )  { $cr = 0; $cg = $c2; $cb = $x2; }
+							elseif ( $h6 < 4 )  { $cr = 0; $cg = $x2; $cb = $c2; }
+							elseif ( $h6 < 5 )  { $cr = $x2; $cg = 0; $cb = $c2; }
+							else                 { $cr = $c2; $cg = 0; $cb = $x2; }
+							$comp_rgb = round( ( $cr + $m2 ) * 255 ) . ',' . round( ( $cg + $m2 ) * 255 ) . ',' . round( ( $cb + $m2 ) * 255 );
+
+							// Dither size scales with thickness
+							$dither_size = max( 4, round( $thickness * 0.22 ) );
+							// Dither extends further up on taller books
+							$dither_extent = min( 65, round( 45 + ( $height - 90 ) * 0.25 ) );
 						?>
 							<button class="bookshelf-book"
-								style="--spine-color: <?php echo esc_attr( $spine_color ); ?>; --book-height: <?php echo $height; ?>px; --book-thickness: <?php echo $thickness; ?>px; --spine-font: <?php echo esc_attr( $book_font ); ?>; --spine-font-size: <?php echo $font_size; ?>px; --spine-text-transform: <?php echo $text_transform; ?>; --spine-font-weight: <?php echo $font_weight; ?>; --spine-text-color: <?php echo $text_color; ?>"
+								style="--spine-color: <?php echo esc_attr( $spine_color ); ?>; --spine-comp-rgb: <?php echo esc_attr( $comp_rgb ); ?>; --book-height: <?php echo $height; ?>px; --book-thickness: <?php echo $thickness; ?>px; --spine-font: <?php echo esc_attr( $book_font ); ?>; --spine-font-size: <?php echo $font_size; ?>px; --spine-text-transform: <?php echo $text_transform; ?>; --spine-font-weight: <?php echo $font_weight; ?>; --spine-text-color: <?php echo $text_color; ?>; --spine-text-shadow-rgb: <?php echo $text_shadow_color; ?>; --dither-size: <?php echo $dither_size; ?>px; --dither-extent: <?php echo $dither_extent; ?>%"
 								data-title="<?php echo esc_attr( $item->post_title ); ?>"
 								data-author="<?php echo esc_attr( $item_author ); ?>"
 								data-year="<?php echo esc_attr( $year ); ?>"
