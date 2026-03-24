@@ -264,7 +264,9 @@ $total_papers = wp_count_posts( 'win95_paper' )->publish;
 <script>
 /* Build shelves: group books into rows, each row gets its own plank */
 (function() {
+	var shelfIdx = 0;
 	function buildShelves() {
+		shelfIdx = 0;
 		document.querySelectorAll('[data-bookshelf]').forEach(function(container) {
 			var books = Array.from(container.querySelectorAll('.bookshelf-book'));
 			if (!books.length) return;
@@ -279,8 +281,6 @@ $total_papers = wp_count_posts( 'win95_paper' )->publish;
 			var currentRowWidth = 0;
 			var currentShelf = null;
 			var currentBooksDiv = null;
-
-			var shelfIdx = 0;
 
 			function randomStars(seed) {
 				/* Simple seeded PRNG so same shelf index = same stars across rebuilds */
