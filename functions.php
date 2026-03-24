@@ -431,24 +431,35 @@ function win95_get_reading_by_year( $post_type = 'win95_book' ) {
 		$by_year[ $year ][] = $item;
 	}
 
-	// Within each year, group series books together
+	// Within each year, sort by author, then series, then title
+	$author_key = ( $post_type === 'win95_paper' ) ? '_win95_paper_authors' : '_win95_book_author';
 	$series_key = ( $post_type === 'win95_paper' ) ? '' : '_win95_book_series';
-	if ( $series_key ) {
-		foreach ( $by_year as $year => &$year_items ) {
-			usort( $year_items, function( $a, $b ) use ( $series_key ) {
+	foreach ( $by_year as $year => &$year_items ) {
+		usort( $year_items, function( $a, $b ) use ( $author_key, $series_key ) {
+			// Primary: author
+			$aa = strtolower( get_post_meta( $a->ID, $author_key, true ) );
+			$ab = strtolower( get_post_meta( $b->ID, $author_key, true ) );
+			$cmp = strcmp( $aa, $ab );
+			if ( $cmp !== 0 ) return $cmp;
+
+			// Secondary: series (within same author)
+			if ( $series_key ) {
 				$sa = get_post_meta( $a->ID, $series_key, true );
 				$sb = get_post_meta( $b->ID, $series_key, true );
-				// Series books sort together by series name, then by title
-				// Non-series books sort after all series books, by title
+				// Series books before non-series by same author
 				if ( $sa && ! $sb ) return -1;
 				if ( ! $sa && $sb ) return 1;
-				if ( $sa && $sb && $sa !== $sb ) return strcmp( $sa, $sb );
-				if ( $sa && $sb ) return strcmp( $a->post_title, $b->post_title );
-				return strcmp( $a->post_title, $b->post_title );
-			} );
-		}
-		unset( $year_items );
+				if ( $sa && $sb ) {
+					$cmp = strcmp( $sa, $sb );
+					if ( $cmp !== 0 ) return $cmp;
+				}
+			}
+
+			// Tertiary: title
+			return strcmp( $a->post_title, $b->post_title );
+		} );
 	}
+	unset( $year_items );
 
 	krsort( $by_year );
 	return $by_year;
