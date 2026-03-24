@@ -1093,110 +1093,148 @@ img {
 }
 
 .bookshelf-year__content {
-	padding: 8px;
+	padding: 0;
 	background: var(--win95-bg-white);
 }
 
-/* The shelf itself */
+/* Shelves container */
+.bookshelf-shelves {
+	padding: 0;
+}
+
+/* The shelf (one per row of books) */
 .bookshelf-shelf {
 	position: relative;
-	min-height: 130px;
 }
 
 .bookshelf-shelf__books {
 	display: flex;
 	align-items: flex-end;
-	gap: 3px;
-	padding: 8px 8px 0;
-	min-height: 110px;
-	flex-wrap: wrap;
+	gap: 2px;
+	padding: 12px 12px 0;
+	/* Dark back panel behind the books */
+	background: linear-gradient(180deg,
+		#3a3028 0%,
+		#4a3e32 60%,
+		#3a3028 100%);
+	box-shadow:
+		inset 0 2px 6px rgba(0, 0, 0, 0.5),
+		inset 0 -1px 0 rgba(255, 255, 255, 0.05);
+	min-height: 60px;
 }
 
 .bookshelf-shelf__plank {
-	height: 8px;
-	background: linear-gradient(180deg, #c8a882 0%, #a0784c 40%, #8b6538 100%);
+	height: 14px;
+	background: linear-gradient(180deg,
+		#d4b896 0%,
+		#c8a882 10%,
+		#b8935e 35%,
+		#a0784c 65%,
+		#8b6538 90%,
+		#7a5830 100%);
 	box-shadow:
-		0 2px 4px rgba(0, 0, 0, 0.3),
-		inset 0 1px 0 rgba(255, 255, 255, 0.3);
-	border-radius: 0 0 2px 2px;
+		0 3px 6px rgba(0, 0, 0, 0.4),
+		0 1px 2px rgba(0, 0, 0, 0.3),
+		inset 0 1px 0 rgba(255, 255, 255, 0.4),
+		inset 0 -1px 0 rgba(0, 0, 0, 0.2);
 }
 
-/* Individual book on shelf */
+/* Individual book on shelf, sized by CSS custom properties */
 .bookshelf-book {
 	display: flex;
 	flex-direction: row;
-	width: 32px;
-	height: 100px;
+	width: var(--book-thickness, 32px);
+	height: var(--book-height, 100px);
 	cursor: pointer;
 	border: none;
 	padding: 0;
 	background: none;
 	position: relative;
-	transition: transform 0.1s;
+	transition: transform 0.15s ease;
+	flex-shrink: 0;
 }
 
 .bookshelf-book:hover {
-	transform: translateY(-4px);
+	transform: translateY(-6px);
+	z-index: 2;
 }
 
 .bookshelf-book:active {
-	transform: translateY(-2px);
+	transform: translateY(-3px);
 }
 
 .bookshelf-book__spine {
 	display: flex;
+	flex-direction: column;
 	align-items: center;
 	justify-content: center;
-	width: 32px;
+	gap: 2px;
+	width: 100%;
 	height: 100%;
 	background: var(--spine-color, #000080);
-	border-radius: 2px 0 0 2px;
+	border-radius: 3px 0 0 3px;
 	box-shadow:
-		inset -1px 0 0 rgba(0, 0, 0, 0.3),
-		inset 1px 0 0 rgba(255, 255, 255, 0.15),
-		inset 0 1px 0 rgba(255, 255, 255, 0.1),
-		inset 0 -1px 0 rgba(0, 0, 0, 0.2);
+		inset -2px 0 2px rgba(0, 0, 0, 0.3),
+		inset 2px 0 1px rgba(255, 255, 255, 0.12),
+		inset 0 2px 0 rgba(255, 255, 255, 0.08),
+		inset 0 -2px 0 rgba(0, 0, 0, 0.15);
 	overflow: hidden;
 	position: relative;
+	flex: 1;
+	min-width: 0;
 }
 
+/* Top and bottom decorative lines on spine */
 .bookshelf-book__spine::before {
 	content: '';
 	position: absolute;
-	top: 4px;
-	left: 6px;
-	right: 6px;
+	top: 5px;
+	left: 4px;
+	right: 4px;
 	height: 1px;
 	background: rgba(255, 255, 255, 0.2);
+	box-shadow: 0 2px 0 rgba(255, 255, 255, 0.1);
 }
 
 .bookshelf-book__spine::after {
 	content: '';
 	position: absolute;
-	bottom: 4px;
-	left: 6px;
-	right: 6px;
+	bottom: 5px;
+	left: 4px;
+	right: 4px;
 	height: 1px;
 	background: rgba(255, 255, 255, 0.2);
+	box-shadow: 0 -2px 0 rgba(255, 255, 255, 0.1);
 }
 
 .bookshelf-book__spine-title {
 	writing-mode: vertical-rl;
 	transform: rotate(180deg);
-	font-family: var(--win95-font);
-	font-size: 9px;
-	color: #ffffff;
-	text-shadow: 0 1px 1px rgba(0, 0, 0, 0.5);
+	font-family: var(--spine-font, Georgia, serif);
+	font-size: var(--spine-font-size, 10px);
+	font-weight: var(--spine-font-weight, normal);
+	text-transform: var(--spine-text-transform, none);
+	letter-spacing: 0.3px;
+	color: var(--spine-text-color, #ffffff);
+	text-shadow: 0 1px 2px rgba(0, 0, 0, 0.4);
 	white-space: nowrap;
 	overflow: hidden;
 	text-overflow: ellipsis;
-	max-height: 88px;
-	padding: 2px 0;
-	line-height: 1;
+	max-height: calc(var(--book-height, 100px) - 30px);
+	padding: 0;
+	line-height: 1.15;
 }
 
-.bookshelf-book__cover {
-	display: none;
+/* Shadow at the base of each book for depth */
+.bookshelf-book::after {
+	content: '';
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	height: 4px;
+	background: linear-gradient(180deg, transparent, rgba(0, 0, 0, 0.3));
+	pointer-events: none;
 }
 
 /* Properties dialog */

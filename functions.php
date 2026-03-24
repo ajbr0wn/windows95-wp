@@ -289,6 +289,9 @@ function win95_book_meta_box_cb( $post ) {
 	$author   = get_post_meta( $post->ID, '_win95_book_author', true );
 	$year     = get_post_meta( $post->ID, '_win95_book_year', true );
 	$rating   = get_post_meta( $post->ID, '_win95_book_rating', true );
+	$pages    = get_post_meta( $post->ID, '_win95_book_pages', true );
+	$spine    = get_post_meta( $post->ID, '_win95_book_spine_title', true );
+	$series   = get_post_meta( $post->ID, '_win95_book_series', true );
 	$color    = get_post_meta( $post->ID, '_win95_book_color', true );
 	$url      = get_post_meta( $post->ID, '_win95_book_url', true );
 	?>
@@ -297,12 +300,27 @@ function win95_book_meta_box_cb( $post ) {
 		<input type="text" id="win95_book_author" name="win95_book_author" value="<?php echo esc_attr( $author ); ?>" style="width:100%">
 	</p>
 	<p>
+		<label for="win95_book_spine_title"><strong><?php _e( 'Spine Title (optional)', 'win95' ); ?></strong></label><br>
+		<input type="text" id="win95_book_spine_title" name="win95_book_spine_title" value="<?php echo esc_attr( $spine ); ?>" style="width:100%">
+		<span class="description"><?php _e( 'Short/abbreviated title for the book spine. Leave blank to use the full title.', 'win95' ); ?></span>
+	</p>
+	<p>
+		<label for="win95_book_series"><strong><?php _e( 'Series (optional)', 'win95' ); ?></strong></label><br>
+		<input type="text" id="win95_book_series" name="win95_book_series" value="<?php echo esc_attr( $series ); ?>" style="width:100%">
+		<span class="description"><?php _e( 'Books in the same series share height and font on the shelf.', 'win95' ); ?></span>
+	</p>
+	<p>
 		<label for="win95_book_year"><strong><?php _e( 'Year Read', 'win95' ); ?></strong></label><br>
 		<input type="number" id="win95_book_year" name="win95_book_year" value="<?php echo esc_attr( $year ); ?>" min="1900" max="2099" style="width:100px">
 	</p>
 	<p>
 		<label for="win95_book_rating"><strong><?php _e( 'Rating (1-5)', 'win95' ); ?></strong></label><br>
 		<input type="number" id="win95_book_rating" name="win95_book_rating" value="<?php echo esc_attr( $rating ); ?>" min="1" max="5" style="width:60px">
+	</p>
+	<p>
+		<label for="win95_book_pages"><strong><?php _e( 'Page Count', 'win95' ); ?></strong></label><br>
+		<input type="number" id="win95_book_pages" name="win95_book_pages" value="<?php echo esc_attr( $pages ); ?>" min="1" max="9999" style="width:100px">
+		<span class="description"><?php _e( 'Controls the height and thickness of the book on the shelf.', 'win95' ); ?></span>
 	</p>
 	<p>
 		<label for="win95_book_color"><strong><?php _e( 'Spine Color', 'win95' ); ?></strong></label><br>
@@ -322,6 +340,8 @@ function win95_paper_meta_box_cb( $post ) {
 	$authors  = get_post_meta( $post->ID, '_win95_paper_authors', true );
 	$year     = get_post_meta( $post->ID, '_win95_paper_year', true );
 	$venue    = get_post_meta( $post->ID, '_win95_paper_venue', true );
+	$pages    = get_post_meta( $post->ID, '_win95_paper_pages', true );
+	$spine    = get_post_meta( $post->ID, '_win95_paper_spine_title', true );
 	$url      = get_post_meta( $post->ID, '_win95_paper_url', true );
 	$color    = get_post_meta( $post->ID, '_win95_paper_color', true );
 	?>
@@ -330,12 +350,21 @@ function win95_paper_meta_box_cb( $post ) {
 		<input type="text" id="win95_paper_authors" name="win95_paper_authors" value="<?php echo esc_attr( $authors ); ?>" style="width:100%">
 	</p>
 	<p>
+		<label for="win95_paper_spine_title"><strong><?php _e( 'Spine Title (optional)', 'win95' ); ?></strong></label><br>
+		<input type="text" id="win95_paper_spine_title" name="win95_paper_spine_title" value="<?php echo esc_attr( $spine ); ?>" style="width:100%">
+		<span class="description"><?php _e( 'Short title for the spine. Leave blank to use the full title.', 'win95' ); ?></span>
+	</p>
+	<p>
 		<label for="win95_paper_year"><strong><?php _e( 'Year Read', 'win95' ); ?></strong></label><br>
 		<input type="number" id="win95_paper_year" name="win95_paper_year" value="<?php echo esc_attr( $year ); ?>" min="1900" max="2099" style="width:100px">
 	</p>
 	<p>
 		<label for="win95_paper_venue"><strong><?php _e( 'Venue / Journal', 'win95' ); ?></strong></label><br>
 		<input type="text" id="win95_paper_venue" name="win95_paper_venue" value="<?php echo esc_attr( $venue ); ?>" style="width:100%">
+	</p>
+	<p>
+		<label for="win95_paper_pages"><strong><?php _e( 'Page Count', 'win95' ); ?></strong></label><br>
+		<input type="number" id="win95_paper_pages" name="win95_paper_pages" value="<?php echo esc_attr( $pages ); ?>" min="1" max="9999" style="width:100px">
 	</p>
 	<p>
 		<label for="win95_paper_url"><strong><?php _e( 'Link URL (optional)', 'win95' ); ?></strong></label><br>
@@ -357,7 +386,7 @@ function win95_save_reading_meta( $post_id ) {
 		if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) return;
 		if ( ! current_user_can( 'edit_post', $post_id ) ) return;
 
-		$fields = array( 'win95_book_author', 'win95_book_year', 'win95_book_rating', 'win95_book_color', 'win95_book_url' );
+		$fields = array( 'win95_book_author', 'win95_book_year', 'win95_book_rating', 'win95_book_pages', 'win95_book_spine_title', 'win95_book_series', 'win95_book_color', 'win95_book_url' );
 		foreach ( $fields as $field ) {
 			if ( isset( $_POST[ $field ] ) ) {
 				update_post_meta( $post_id, '_' . $field, sanitize_text_field( $_POST[ $field ] ) );
@@ -370,7 +399,7 @@ function win95_save_reading_meta( $post_id ) {
 		if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) return;
 		if ( ! current_user_can( 'edit_post', $post_id ) ) return;
 
-		$fields = array( 'win95_paper_authors', 'win95_paper_year', 'win95_paper_venue', 'win95_paper_url', 'win95_paper_color' );
+		$fields = array( 'win95_paper_authors', 'win95_paper_year', 'win95_paper_venue', 'win95_paper_pages', 'win95_paper_spine_title', 'win95_paper_url', 'win95_paper_color' );
 		foreach ( $fields as $field ) {
 			if ( isset( $_POST[ $field ] ) ) {
 				update_post_meta( $post_id, '_' . $field, sanitize_text_field( $_POST[ $field ] ) );
