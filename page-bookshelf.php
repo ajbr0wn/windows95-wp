@@ -337,11 +337,18 @@ $total_papers = wp_count_posts( 'win95_paper' )->publish;
 		});
 	}
 
-	// Build on load
-	if (document.readyState === 'loading') {
-		document.addEventListener('DOMContentLoaded', buildShelves);
-	} else {
+	// Build on load (with retry to handle AJAX-spawned windows that
+	// aren't fully sized yet on first render)
+	function initBuild() {
 		buildShelves();
+		// Rebuild shortly after in case window was still being positioned
+		setTimeout(buildShelves, 150);
+		setTimeout(buildShelves, 500);
+	}
+	if (document.readyState === 'loading') {
+		document.addEventListener('DOMContentLoaded', initBuild);
+	} else {
+		initBuild();
 	}
 
 	// Rebuild on resize (debounced) - use ResizeObserver to catch

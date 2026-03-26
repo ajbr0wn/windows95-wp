@@ -558,6 +558,20 @@
 					}
 				}
 
+				// Re-execute inline scripts (innerHTML doesn't run them)
+				if (targetBody) {
+					var scripts = targetBody.querySelectorAll('script');
+					scripts.forEach(function (oldScript) {
+						var newScript = document.createElement('script');
+						if (oldScript.src) {
+							newScript.src = oldScript.src;
+						} else {
+							newScript.textContent = oldScript.textContent;
+						}
+						oldScript.parentNode.replaceChild(newScript, oldScript);
+					});
+				}
+
 				// Update status bar
 				var statusField = win.querySelector('.win95-status-bar__field');
 				if (statusField) statusField.textContent = 'Done';
@@ -641,6 +655,20 @@
 							if (mainContent && body) {
 								body.innerHTML = mainContent.innerHTML;
 							}
+						}
+
+						// Re-execute inline scripts
+						if (body) {
+							var scripts = body.querySelectorAll('script');
+							scripts.forEach(function (oldScript) {
+								var newScript = document.createElement('script');
+								if (oldScript.src) {
+									newScript.src = oldScript.src;
+								} else {
+									newScript.textContent = oldScript.textContent;
+								}
+								oldScript.parentNode.replaceChild(newScript, oldScript);
+							});
 						}
 
 						// Update title bar
