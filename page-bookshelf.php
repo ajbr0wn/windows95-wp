@@ -50,6 +50,53 @@ $total_papers = wp_count_posts( 'win95_paper' )->publish;
 				</button>
 
 				<div class="bookshelf-year__content">
+				<?php if ( $active_tab === 'papers' ) : ?>
+					<!-- Cork bulletin board for papers -->
+					<div class="corkboard">
+						<div class="corkboard__surface">
+							<?php
+							foreach ( $items as $idx => $item ) :
+								$item_author = get_post_meta( $item->ID, '_win95_paper_authors', true );
+								$item_venue  = get_post_meta( $item->ID, '_win95_paper_venue', true );
+								$item_url    = get_post_meta( $item->ID, '_win95_paper_url', true );
+								$item_pages  = get_post_meta( $item->ID, '_win95_paper_pages', true );
+								$cover_url   = has_post_thumbnail( $item->ID ) ? get_the_post_thumbnail_url( $item->ID, 'medium' ) : '';
+
+								// Deterministic random rotation between -3 and 3 degrees
+								$rotation = ( ( crc32( 'r' . $item->ID ) % 700 ) - 350 ) / 100;
+								// Pin color from spine color
+								$pin_color = get_post_meta( $item->ID, '_win95_paper_color', true ) ?: '#800000';
+								// Deterministic pin horizontal offset (40-60% so it's roughly centered)
+								$pin_offset = 40 + ( abs( crc32( 'o' . $item->ID ) ) % 21 );
+							?>
+								<button class="corkboard__card"
+									style="--card-rotation: <?php echo $rotation; ?>deg; --pin-color: <?php echo esc_attr( $pin_color ); ?>; --pin-offset: <?php echo $pin_offset; ?>%"
+									data-title="<?php echo esc_attr( $item->post_title ); ?>"
+									data-author="<?php echo esc_attr( $item_author ); ?>"
+									data-year="<?php echo esc_attr( $year ); ?>"
+									data-rating=""
+									data-pages="<?php echo esc_attr( $item_pages ); ?>"
+									data-venue="<?php echo esc_attr( $item_venue ); ?>"
+									data-url="<?php echo esc_attr( $item_url ); ?>"
+									data-cover="<?php echo esc_attr( $cover_url ); ?>"
+									data-notes="<?php echo esc_attr( wp_strip_all_tags( $item->post_content ) ); ?>"
+									data-type="paper"
+									onclick="win95OpenBookProperties(this)"
+									title="<?php echo esc_attr( $item->post_title ); ?>">
+									<span class="corkboard__pin"></span>
+									<span class="corkboard__card-title"><?php echo esc_html( $item->post_title ); ?></span>
+									<?php if ( $item_author ) : ?>
+										<span class="corkboard__card-authors"><?php echo esc_html( $item_author ); ?></span>
+									<?php endif; ?>
+									<?php if ( $item_venue ) : ?>
+										<span class="corkboard__card-venue"><?php echo esc_html( $item_venue ); ?></span>
+									<?php endif; ?>
+								</button>
+							<?php endforeach; ?>
+						</div>
+					</div>
+				<?php else : ?>
+					<!-- Bookshelf for books -->
 					<div class="bookshelf-shelves" data-bookshelf>
 						<?php
 						// Pre-compute series styling: books in the same series
@@ -68,23 +115,12 @@ $total_papers = wp_count_posts( 'win95_paper' )->publish;
 						$weight_opts = array( 'normal', 'bold', 'normal', 'bold', 'normal' );
 
 						foreach ( $items as $item ) :
-							if ( $active_tab === 'papers' ) {
-								$item_author = get_post_meta( $item->ID, '_win95_paper_authors', true );
-								$item_venue  = get_post_meta( $item->ID, '_win95_paper_venue', true );
-								$item_url    = get_post_meta( $item->ID, '_win95_paper_url', true );
-								$spine_color = get_post_meta( $item->ID, '_win95_paper_color', true ) ?: '#800000';
-								$item_rating = '';
-								$item_pages  = get_post_meta( $item->ID, '_win95_paper_pages', true );
-								$item_series = '';
-							} else {
-								$item_author = get_post_meta( $item->ID, '_win95_book_author', true );
-								$item_venue  = '';
-								$item_url    = get_post_meta( $item->ID, '_win95_book_url', true );
-								$spine_color = get_post_meta( $item->ID, '_win95_book_color', true ) ?: '#000080';
-								$item_rating = get_post_meta( $item->ID, '_win95_book_rating', true );
-								$item_pages  = get_post_meta( $item->ID, '_win95_book_pages', true );
-								$item_series = get_post_meta( $item->ID, '_win95_book_series', true );
-							}
+							$item_author = get_post_meta( $item->ID, '_win95_book_author', true );
+							$item_url    = get_post_meta( $item->ID, '_win95_book_url', true );
+							$spine_color = get_post_meta( $item->ID, '_win95_book_color', true ) ?: '#000080';
+							$item_rating = get_post_meta( $item->ID, '_win95_book_rating', true );
+							$item_pages  = get_post_meta( $item->ID, '_win95_book_pages', true );
+							$item_series = get_post_meta( $item->ID, '_win95_book_series', true );
 							$has_cover   = has_post_thumbnail( $item->ID );
 							$cover_url   = $has_cover ? get_the_post_thumbnail_url( $item->ID, 'medium' ) : '';
 
@@ -131,9 +167,7 @@ $total_papers = wp_count_posts( 'win95_paper' )->publish;
 							}
 
 							// Spine display title
-							$spine_title_meta = ( $active_tab === 'papers' )
-								? get_post_meta( $item->ID, '_win95_paper_spine_title', true )
-								: get_post_meta( $item->ID, '_win95_book_spine_title', true );
+							$spine_title_meta = get_post_meta( $item->ID, '_win95_book_spine_title', true );
 							$spine_display = ! empty( $spine_title_meta ) ? $spine_title_meta : $item->post_title;
 
 							// Font size scales with thickness
@@ -189,11 +223,11 @@ $total_papers = wp_count_posts( 'win95_paper' )->publish;
 								data-year="<?php echo esc_attr( $year ); ?>"
 								data-rating="<?php echo esc_attr( $item_rating ); ?>"
 								data-pages="<?php echo esc_attr( $item_pages ); ?>"
-								data-venue="<?php echo esc_attr( $item_venue ); ?>"
+								data-venue=""
 								data-url="<?php echo esc_attr( $item_url ); ?>"
 								data-cover="<?php echo esc_attr( $cover_url ); ?>"
 								data-notes="<?php echo esc_attr( wp_strip_all_tags( $item->post_content ) ); ?>"
-								data-type="<?php echo esc_attr( $active_tab === 'papers' ? 'paper' : 'book' ); ?>"
+								data-type="book"
 								onclick="win95OpenBookProperties(this)"
 								title="<?php echo esc_attr( $item->post_title ); ?>">
 								<span class="bookshelf-book__side-left"></span>
@@ -204,6 +238,7 @@ $total_papers = wp_count_posts( 'win95_paper' )->publish;
 							</button>
 						<?php endforeach; ?>
 					</div>
+				<?php endif; ?>
 				</div>
 			</div>
 		<?php endforeach; ?>

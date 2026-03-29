@@ -1367,6 +1367,164 @@ img {
 	z-index: 3;
 }
 
+/* --- Cork Bulletin Board (Papers) --- */
+.corkboard {
+	padding: 0;
+}
+
+.corkboard__surface {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 12px;
+	padding: 16px;
+	min-height: 80px;
+	/* Cork texture: warm tan with noise-like stipple */
+	background:
+		repeating-conic-gradient(
+			rgba(160, 120, 60, 0.08) 0% 25%,
+			transparent 0% 50%
+		) 0 0 / 4px 4px,
+		repeating-conic-gradient(
+			rgba(120, 80, 40, 0.06) 0% 25%,
+			transparent 0% 50%
+		) 2px 2px / 6px 6px,
+		linear-gradient(
+			135deg,
+			#c4a265 0%,
+			#d4b478 25%,
+			#c9a86c 50%,
+			#d0af72 75%,
+			#c4a265 100%
+		);
+	/* Win95 sunken inset, like a recessed panel */
+	box-shadow:
+		inset -1px -1px 0 0 var(--win95-bg-white),
+		inset 1px 1px 0 0 var(--win95-bg-dark),
+		inset -2px -2px 0 0 var(--win95-bg-light),
+		inset 2px 2px 0 0 var(--win95-bg-darkest);
+}
+
+/* Individual index card */
+.corkboard__card {
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	width: 160px;
+	min-height: 100px;
+	padding: 0;
+	border: none;
+	cursor: pointer;
+	position: relative;
+	transform: rotate(var(--card-rotation, 0deg));
+	transition: transform 0.15s ease, box-shadow 0.15s ease;
+	font-family: var(--win95-font);
+	font-size: var(--win95-font-size);
+	text-align: left;
+	-webkit-appearance: none;
+	appearance: none;
+	/* Card body: white with ruled lines */
+	background:
+		/* Red header line */
+		linear-gradient(
+			to bottom,
+			transparent 19px,
+			#cc4444 19px,
+			#cc4444 21px,
+			transparent 21px
+		),
+		/* Blue ruled lines */
+		repeating-linear-gradient(
+			to bottom,
+			transparent 21px,
+			transparent 33px,
+			#b8cce8 33px,
+			#b8cce8 34px
+		),
+		#fffff8;
+	box-shadow:
+		1px 2px 4px rgba(0, 0, 0, 0.35),
+		0 0 0 1px rgba(0, 0, 0, 0.08);
+}
+
+.corkboard__card:hover {
+	transform: rotate(var(--card-rotation, 0deg)) translateY(-3px);
+	box-shadow:
+		2px 4px 8px rgba(0, 0, 0, 0.4),
+		0 0 0 1px rgba(0, 0, 0, 0.1);
+}
+
+.corkboard__card:active {
+	transform: rotate(var(--card-rotation, 0deg)) translateY(-1px);
+}
+
+/* Thumbtack */
+.corkboard__pin {
+	position: absolute;
+	top: -4px;
+	left: var(--pin-offset, 50%);
+	transform: translateX(-50%);
+	width: 12px;
+	height: 12px;
+	border-radius: 50%;
+	background: radial-gradient(
+		circle at 35% 35%,
+		color-mix(in srgb, var(--pin-color) 60%, white) 0%,
+		var(--pin-color) 50%,
+		color-mix(in srgb, var(--pin-color) 70%, black) 100%
+	);
+	box-shadow:
+		0 1px 2px rgba(0, 0, 0, 0.5),
+		inset 0 -1px 1px rgba(0, 0, 0, 0.3);
+	z-index: 2;
+	/* Tack point shadow on the card */
+}
+
+.corkboard__pin::after {
+	content: '';
+	position: absolute;
+	top: 10px;
+	left: 50%;
+	transform: translateX(-50%);
+	width: 3px;
+	height: 3px;
+	border-radius: 50%;
+	background: rgba(0, 0, 0, 0.2);
+}
+
+/* Card text content sits below the red line */
+.corkboard__card-title {
+	display: block;
+	padding: 24px 8px 2px;
+	font-weight: bold;
+	font-size: 10px;
+	line-height: 12px;
+	color: #000;
+	/* Clamp to roughly 3 ruled lines */
+	max-height: 60px;
+	overflow: hidden;
+}
+
+.corkboard__card-authors {
+	display: block;
+	padding: 2px 8px;
+	font-size: 9px;
+	line-height: 12px;
+	color: #444;
+	max-height: 24px;
+	overflow: hidden;
+}
+
+.corkboard__card-venue {
+	display: block;
+	padding: 2px 8px 6px;
+	font-size: 9px;
+	font-style: italic;
+	line-height: 12px;
+	color: #666;
+	max-height: 14px;
+	overflow: hidden;
+}
+
 /* Properties dialog */
 .bookshelf-properties {
 	position: fixed;
