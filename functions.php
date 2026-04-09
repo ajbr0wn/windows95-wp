@@ -229,8 +229,9 @@ function win95_register_reading_post_types() {
 		'public'       => false,
 		'show_ui'      => true,
 		'show_in_menu' => true,
+		'show_in_rest' => true,
 		'menu_icon'    => 'dashicons-book',
-		'supports'     => array( 'title', 'editor', 'thumbnail' ),
+		'supports'     => array( 'title', 'editor', 'thumbnail', 'custom-fields' ),
 		'has_archive'  => false,
 		'rewrite'      => false,
 	) );
@@ -253,11 +254,40 @@ function win95_register_reading_post_types() {
 		'public'       => false,
 		'show_ui'      => true,
 		'show_in_menu' => true,
+		'show_in_rest' => true,
 		'menu_icon'    => 'dashicons-media-document',
-		'supports'     => array( 'title', 'editor', 'thumbnail' ),
+		'supports'     => array( 'title', 'editor', 'thumbnail', 'custom-fields' ),
 		'has_archive'  => false,
 		'rewrite'      => false,
 	) );
+	// Register meta fields for REST API access
+	$book_meta = array(
+		'_win95_book_author', '_win95_book_year', '_win95_book_rating',
+		'_win95_book_pages', '_win95_book_spine_title', '_win95_book_series',
+		'_win95_book_color', '_win95_book_url',
+	);
+	foreach ( $book_meta as $key ) {
+		register_post_meta( 'win95_book', $key, array(
+			'show_in_rest'  => true,
+			'single'        => true,
+			'type'          => 'string',
+			'auth_callback' => function() { return current_user_can( 'edit_posts' ); },
+		) );
+	}
+
+	$paper_meta = array(
+		'_win95_paper_authors', '_win95_paper_year', '_win95_paper_venue',
+		'_win95_paper_pages', '_win95_paper_spine_title',
+		'_win95_paper_color', '_win95_paper_url',
+	);
+	foreach ( $paper_meta as $key ) {
+		register_post_meta( 'win95_paper', $key, array(
+			'show_in_rest'  => true,
+			'single'        => true,
+			'type'          => 'string',
+			'auth_callback' => function() { return current_user_can( 'edit_posts' ); },
+		) );
+	}
 }
 add_action( 'init', 'win95_register_reading_post_types' );
 
